@@ -7,8 +7,26 @@
 [x] prevent moving through fences
 [x] rotate the image with respect to whatever direction it was facing last
 [x] find a sprite to represent a laser beam
-[ ] add shoot as a possible action
-[ ] when tank chooses shoot, add a laser beam to the game state
-[ ] laser beam needs key and direction in a seperate hash
-[ ] make laser beam move 1 cell per half tick
-[ ] collision detection
+[x] add shoot as a possible action
+[x] when tank chooses shoot, add a laser beam to the game state
+[x] laser beam needs key and direction in a seperate hash
+[x] make laser beam move 1 cell per tick
+[x] collision detection
+[ ] Give each tank a name at start time
+[ ] When only one tank is untagged, mark game ended, show message "[Name] Wins!" (http://www.rubydoc.info/github/gosu/gosu/Gosu/Font)
+[ ] Start each tank with 100.0 energy
+[ ] Display energy at the bottom of the screen by label for each
+[ ] moving should consume 0.1 energy
+[ ] shooting should consume 1 energy
+[ ] getting hit by a laser should drain 25 energy
+[ ] when energy is <= 0, tank is "tagged"
+[ ] find a sprite for a battery
+[ ] on each frame, if there is no battery, randomly generate one and draw it
+[ ] if a tank moves onto the battery, the battery disappears and the tank gets +40 energy
+[ ] make sure that if 2 lasers run into each other they both disappear
+[ ] pass lasers state and battery state into each bot for decision making
+[ ] Build a bot that just holds still (BoringBot)
+[ ] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
+[ ] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
+[ ] Build a bot that spins and shoots (BattleBot)
+[ ] Build a bot that prioritizes targeted shooting (HunterBot)
