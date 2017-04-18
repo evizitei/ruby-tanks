@@ -18,14 +18,11 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       RandomBot.new(Gosu::Image.new("assets/tank_purple.png")),
-      RandomBot.new(Gosu::Image.new("assets/tank_green.png")),
-      RandomBot.new(Gosu::Image.new("assets/tank_purple.png")),
-      RandomBot.new(Gosu::Image.new("assets/tank_green.png")),
-      RandomBot.new(Gosu::Image.new("assets/tank_purple.png")),
       RandomBot.new(Gosu::Image.new("assets/tank_green.png"))
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
+    @laser = Gosu::Image.new("assets/laser.png")
   end
 
   def update
@@ -40,6 +37,8 @@ class Tanks < Gosu::Window
     @background_image.draw(0,0,0)
     @fence.draw
     @arena.render
+    @laser.draw_rot(338,300,1, 0, 0.5, 0.5, 0.6, 0.8)
+    @laser.draw_rot(338 + TILE_SIZE,300,1, 90, 0.5, 0.5, 0.6, 0.8)
   end
 end
 
