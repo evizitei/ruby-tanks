@@ -81,6 +81,7 @@ class Arena
         @shots[shot_hash[:shot].key] = shot_hash
       end
     end
+    @pending_shots = []
   end
 
   private
@@ -127,13 +128,13 @@ class Arena
     target_col = col_i
     case hash[:rotation]
     when 0
-      target_row += 1
-    when 90
       target_col += 1
+    when 90
+      target_row += 1
     when 180
-      target_row -= 1
-    when 270
       target_col -= 1
+    when 270
+      target_row -= 1
     end
     add_shot(target_row, target_col, hash[:rotation])
   end
