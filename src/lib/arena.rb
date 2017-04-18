@@ -24,8 +24,7 @@ class Arena
       row.each_with_index do |key, col_i|
         if nil != key
           bot_hash = @keyed_bots[key]
-          rotation = bot_hash[:rotation]
-          bot_hash[:bot].image.draw_rot(x_for(col_i), y_for(row_i), TANK_Z, rotation, TANK_CENTER, TANK_CENTER, TANK_SCALE, TANK_SCALE)
+          draw_bot(bot_hash, row_i, col_i)
         end
       end
     end
@@ -46,19 +45,24 @@ class Arena
       row.each_with_index do |key, col_i|
         if nil != key
           bot_hash = @keyed_bots[key]
-          case bot_hash[:decision]
-          when :left
-            try_left(bot_hash, row_i, col_i)
-          when :right
-            try_right(bot_hash, row_i, col_i)
-          when :up
-            try_up(bot_hash, row_i, col_i)
-          when :down
-            try_down(bot_hash, row_i, col_i)
-          when :shoot
-            try_shoot(bot_hash, row_i, col_i)
+          if bot_hash[:tagged]
+            # Nope, you're stuck now
+            @new_state[row_i][col_i] = key
           else
-            puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
+            case bot_hash[:decision]
+            when :left
+              try_left(bot_hash, row_i, col_i)
+            when :right
+              try_right(bot_hash, row_i, col_i)
+            when :up
+              try_up(bot_hash, row_i, col_i)
+            when :down
+              try_down(bot_hash, row_i, col_i)
+            when :shoot
+              try_shoot(bot_hash, row_i, col_i)
+            else
+              puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
+            end
           end
         end
       end
@@ -86,9 +90,17 @@ class Arena
 
   private
 
+  def draw_bot(bot_hash, row, col)
+    rotation = bot_hash[:rotation]
+    x = X_START + (col * @tile_size)
+    y = Y_START + (row * @tile_size)
+    img = bot_hash[:bot].image(bot_hash[:tagged])
+    img.draw_rot(x, y, TANK_Z, rotation, TANK_CENTER, TANK_CENTER, TANK_SCALE, TANK_SCALE)
+  end
+
   def draw_shot(image, row, col, rotation)
-    x = 104 + (@tile_size * col)
-    y = 144 + (@tile_size * row)
+    x = X_START + (@tile_size * col)
+    y = Y_START + (@tile_size * row)
     image.draw_rot(x,y,1, rotation, 0.5, 0.5, 0.6, 0.8)
   end
 
@@ -180,14 +192,6 @@ class Arena
     return if col_i < 0 || col_i >= @columns
     new_shot = Shot.new(@shot_image)
     @pending_shots << { shot: new_shot, row: row_i, col: col_i, rotation: rotation }
-  end
-
-  def x_for(column)
-    X_START + (column * @tile_size)
-  end
-
-  def y_for(row)
-    Y_START + (row * @tile_size)
   end
 
   def calculate_initial_positions

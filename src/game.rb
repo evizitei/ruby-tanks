@@ -3,7 +3,15 @@ require_relative './lib/fence'
 require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
 
+PURPLE_IMAGES = {
+  standard: Gosu::Image.new("assets/tank_purple.png"),
+  tagged: Gosu::Image.new("assets/tank_purple_tagged.png"),
+}
 
+GREEN_IMAGES = {
+  standard: Gosu::Image.new("assets/tank_green.png"),
+  tagged: Gosu::Image.new("assets/tank_green_tagged.png"),
+}
 
 class Tanks < Gosu::Window
   GAME_WIDTH = 960
@@ -17,8 +25,8 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      RandomBot.new(Gosu::Image.new("assets/tank_purple.png")),
-      RandomBot.new(Gosu::Image.new("assets/tank_green.png"))
+      RandomBot.new(PURPLE_IMAGES),
+      RandomBot.new(GREEN_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
