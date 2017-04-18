@@ -31,3 +31,11 @@ of this project:
 To start the game, you can use the script at "bin/play":
 
 `./bin/play`
+
+## Participating
+
+The goal here is to have players write bots that play laser tag against each other.
+Right now the game initializes with 2 "RandomBots" that just pick a random
+action for each tick, but any bot that matches the same interface (accepts
+  the game state and returns a desired action of [left, right, up, down, shoot])
+could be input, so the bot can be as complicated as you want.
