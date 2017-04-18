@@ -25,3 +25,9 @@ and then you should be able to install dependencies from the root directory
 of this project:
 
 `bundle install`
+
+## Playing
+
+To start the game, you can use the script at "bin/play":
+
+`./bin/play`
