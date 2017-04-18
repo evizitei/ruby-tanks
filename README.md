@@ -41,3 +41,6 @@ Right now the game initializes with 2 "RandomBots" that just pick a random
 action for each tick, but any bot that matches the same interface (accepts
   the game state and returns a desired action of [left, right, up, down, shoot])
 could be input, so the bot can be as complicated as you want.
+
+If you write your own bot, go into "game.rb" and replace one of the random
+bots with your bot (or add it as a 3rd), and the game should just work.

@@ -27,6 +27,7 @@ class Tanks < Gosu::Window
     bots = [
       RandomBot.new(PURPLE_IMAGES),
       RandomBot.new(GREEN_IMAGES)
+      #YourBot.new(PURPLE_IMAGES) <- your bot goes here
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
