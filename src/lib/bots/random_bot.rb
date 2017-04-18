@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class RandomBot
-  ACTIONS=[:left, :up, :down, :right]
+  ACTIONS=[:left, :up, :down, :right, :shoot]
 
   attr_reader :image, :key
 
