@@ -6,3 +6,10 @@
 [x] Make the tank a random bot that just moves one direction (or does nothing)
 [x] prevent moving through fences
 [x] rotate the image with respect to whatever direction it was facing last
+[ ] find a sprite to represent a laser beam
+[ ] add turn_left/turn_right/flip as possible actions
+[ ] add shoot as a possible action
+[ ] when tank chooses shoot, add a laser beam to the game state
+[ ] laser beam needs key and direction in a seperate hash
+[ ] make laser beam move 1 cell per half tick
+[ ] collision detection
