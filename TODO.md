@@ -30,3 +30,6 @@
 [ ] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
 [ ] Build a bot that spins and shoots (BattleBot)
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
+[ ] work with bella to come up with strategic ideas for defeating each of these
+    that can be made into helper methods on the TankBot base class.
+[ ] Build a Q-Learning Bot??
