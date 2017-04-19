@@ -10,7 +10,7 @@ class RandomBot
     @key = SecureRandom.uuid
   end
 
-  def choose_action(game_state)
+  def choose_action(game_state, shots)
     ACTIONS.sample
   end
 

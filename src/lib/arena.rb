@@ -19,6 +19,7 @@ class Arena
     @columns = columns
     @state = calculate_initial_positions
     @shot_image = Gosu::Image.new("assets/laser.png")
+    @battery_image = Gosu::Image.new("assets/battery.png")
     @scoreboard_font = Gosu::Font.new(20)
     @announcement_font = Gosu::Font.new(60)
     @shots = {}
@@ -52,10 +53,11 @@ class Arena
     else
       @new_state = generate_blank_state
       active_count = 0
+      shot_data = @shots.map{|k,hash| {row: hash[:row], col: hash[:col], rotation: hash[:rotation]} }
       @bots.each do |bot|
         hash = @keyed_bots[bot.key]
         active_count += 1 unless hash[:tagged]
-        hash[:decision] = bot.choose_action(@state)
+        hash[:decision] = bot.choose_action(@state, shot_data)
       end
 
       if active_count <= 1

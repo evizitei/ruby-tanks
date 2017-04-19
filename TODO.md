@@ -20,8 +20,8 @@
 [x] shooting should consume 1 energy
 [x] getting hit by a laser should drain 25 energy
 [x] when energy is <= 0, tank is "tagged"
-[ ] fix bug where you can tag yourself by shooting and then walking forward into your shot
-[ ] find a sprite for a battery
+[x] fix bug where you can tag yourself by shooting and then walking forward into your shot
+[x] find a sprite for a battery
 [ ] on each frame, if there is no battery, randomly generate one and draw it
 [ ] if a tank moves onto the battery, the battery disappears and the tank gets +40 energy
 [ ] make sure that if 2 lasers run into each other they both disappear
