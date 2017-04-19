@@ -96,6 +96,8 @@ class Arena
                 try_down(bot_hash, row_i, col_i)
               when :shoot
                 try_shoot(bot_hash, row_i, col_i)
+              when :nothing
+                @new_state[row_i][col_i] = key
               else
                 puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
               end

@@ -1,13 +1,13 @@
 require_relative './base_bot'
 
-class RandomBot < BaseBot
+class BoringBot < BaseBot
 
   def choose_action(game_state, shots, battery_position)
-    possible_actions.sample
+    return :nothing
   end
 
   def name
-    "Random"
+    "Boring"
   end
 
 end
