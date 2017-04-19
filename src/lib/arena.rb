@@ -17,79 +17,101 @@ class Arena
     @state = calculate_initial_positions
     @shot_image = Gosu::Image.new("assets/laser.png")
     @scoreboard_font = Gosu::Font.new(20)
+    @announcement_font = Gosu::Font.new(60)
     @shots = {}
     @pending_shots = []
   end
 
   def render
-    @state.each_with_index do |row, row_i|
-      row.each_with_index do |key, col_i|
-        if nil != key
-          bot_hash = @keyed_bots[key]
-          draw_bot(bot_hash, row_i, col_i)
+    if @winner
+      @announcement_font.draw("#{@winner} wins!", 250, 300, 5)
+    else
+      @state.each_with_index do |row, row_i|
+        row.each_with_index do |key, col_i|
+          if nil != key
+            bot_hash = @keyed_bots[key]
+            draw_bot(bot_hash, row_i, col_i)
+          end
         end
       end
-    end
 
-    @shots.each do |key, hash|
-      draw_shot(hash[:shot].image, hash[:row], hash[:col], hash[:rotation])
+      @shots.each do |key, hash|
+        draw_shot(hash[:shot].image, hash[:row], hash[:col], hash[:rotation])
+      end
     end
 
     draw_scoreboard
   end
 
   def tick
-    @new_state = generate_blank_state
-    @bots.each do |bot|
-      @keyed_bots[bot.key][:decision] = bot.choose_action(@state)
-    end
+    if @winner
+      # no need to keep changing stuff
+    else
+      @new_state = generate_blank_state
+      active_count = 0
+      @bots.each do |bot|
+        hash = @keyed_bots[bot.key]
+        active_count += 1 unless hash[:tagged]
+        hash[:decision] = bot.choose_action(@state)
+      end
 
-    # MOVE TANKS
-    @state.each_with_index do |row, row_i|
-      row.each_with_index do |key, col_i|
-        if nil != key
-          bot_hash = @keyed_bots[key]
-          if bot_hash[:tagged]
-            # Nope, you're stuck now
-            @new_state[row_i][col_i] = key
-          else
-            case bot_hash[:decision]
-            when :left
-              try_left(bot_hash, row_i, col_i)
-            when :right
-              try_right(bot_hash, row_i, col_i)
-            when :up
-              try_up(bot_hash, row_i, col_i)
-            when :down
-              try_down(bot_hash, row_i, col_i)
-            when :shoot
-              try_shoot(bot_hash, row_i, col_i)
+      if active_count <= 1
+        winner_bot = nil
+        @keyed_bots.each do |k,hash|
+          if !hash[:tagged]
+            winner_bot = hash[:bot]
+          end
+        end
+        @winner = winner_bot.name
+      end
+
+      # MOVE TANKS
+      @state.each_with_index do |row, row_i|
+        row.each_with_index do |key, col_i|
+          if nil != key
+            bot_hash = @keyed_bots[key]
+            if bot_hash[:tagged]
+              # Nope, you're stuck now
+              @new_state[row_i][col_i] = key
             else
-              puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
+              case bot_hash[:decision]
+              when :left
+                try_left(bot_hash, row_i, col_i)
+              when :right
+                try_right(bot_hash, row_i, col_i)
+              when :up
+                try_up(bot_hash, row_i, col_i)
+              when :down
+                try_down(bot_hash, row_i, col_i)
+              when :shoot
+                try_shoot(bot_hash, row_i, col_i)
+              else
+                puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
+              end
             end
           end
         end
       end
-    end
 
-    @state = @new_state
+      @state = @new_state
 
-    # MOVE EXISTING SHOTS
-    @shots.each do |key, hash|
-      move_shot(hash)
-    end
-
-    # PLACE NEW SHOTS
-    @pending_shots.each do |shot_hash|
-      target_key = @state[shot_hash[:row]][shot_hash[:col]]
-      if nil != target_key # tank hit
-        bot_hash = @keyed_bots[target_key]
-        bot_hash[:tagged] = true
-      else
-        @shots[shot_hash[:shot].key] = shot_hash
+      # MOVE EXISTING SHOTS
+      @shots.each do |key, hash|
+        move_shot(hash)
       end
+
+      # PLACE NEW SHOTS
+      @pending_shots.each do |shot_hash|
+        target_key = @state[shot_hash[:row]][shot_hash[:col]]
+        if nil != target_key # tank hit
+          bot_hash = @keyed_bots[target_key]
+          bot_hash[:tagged] = true
+        else
+          @shots[shot_hash[:shot].key] = shot_hash
+        end
+      end
+      @pending_shots = []
     end
-    @pending_shots = []
   end
 
   private

@@ -17,7 +17,7 @@ class Tanks < Gosu::Window
   GAME_WIDTH = 960
   GAME_HEIGHT = 720
   TILE_SIZE = 78
-  GAME_TICK = 1200
+  GAME_TICK = 1000
 
   def initialize
     super GAME_WIDTH, GAME_HEIGHT
