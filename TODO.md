@@ -26,7 +26,7 @@
 [x] if a tank moves onto the battery, the battery disappears and the tank gets some energy
 [x] pass lasers state and battery state into each bot for decision making
 [x] make sure that if 2 lasers run into each other they both disappear
-[ ] pass in a copy of game state so bots can't accidentally modify it
+[x] pass in a copy of game state so bots can't accidentally modify it
 [ ] Build a bot that just holds still (BoringBot)
 [ ] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
 [ ] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)

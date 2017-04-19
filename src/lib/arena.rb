@@ -63,7 +63,7 @@ class Arena
       @bots.each do |bot|
         hash = @keyed_bots[bot.key]
         active_count += 1 unless hash[:tagged]
-        hash[:decision] = bot.choose_action(@state, shot_data, battery_data)
+        hash[:decision] = bot.choose_action(@state.map{|col| col.dup }, shot_data.dup, battery_data.dup)
       end
 
       if active_count <= 1
