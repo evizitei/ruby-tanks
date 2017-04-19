@@ -42,6 +42,9 @@
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
 [ ] build a bot that prioritizes maximizing distance
 between itself and other bots
+[x] build a bot you can control with the
+keyboard/spacebar so you can experiment against
+a given bot.
 
 
 [ ] build in an automated way to pit 2 bots against each other for a configurable number of epochs and
@@ -49,4 +52,4 @@ output the results of win counts for statistics gathering with a tick of 0.
 
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
-[ ] Build a Q-Learning Bot??
+[ ] Build a Q-Learning Bot?? (ambitious but would be cool)

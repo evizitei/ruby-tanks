@@ -120,8 +120,7 @@ class Arena
         target_key = @state[shot_hash[:row]][shot_hash[:col]]
         if nil != target_key # tank hit
           bot_hash = @keyed_bots[target_key]
-          bot_hash[:energy] -= HIT_COST
-          bot_hash[:energy] = 0 if bot_hash[:energy] < 0
+          process_bot_shot(bot_hash, shot_hash[:shot].key)
         else
           @shots[shot_hash[:shot].key] = shot_hash
         end
@@ -148,6 +147,12 @@ class Arena
   end
 
   private
+
+  def process_bot_shot(bot_hash, shot_key)
+    bot_hash[:energy] -= HIT_COST
+    bot_hash[:energy] = 0 if bot_hash[:energy] < 0
+    @shots.delete(shot_key)
+  end
 
   def reset_game!
     @keyed_bots = @bots.map{|b| [b.key, { bot: b, energy: TANK_START_ENERGY }] }.to_h
@@ -222,8 +227,7 @@ class Arena
       target_key = @state[target_row][target_col]
       if nil != target_key # tank hit
         bot_hash = @keyed_bots[target_key]
-        bot_hash[:energy] -= HIT_COST
-        @shots.delete(shot_hash[:shot].key)
+        process_bot_shot(bot_hash, shot_hash[:shot].key)
       else
         shot_hash[:row] = target_row
         shot_hash[:col] = target_col

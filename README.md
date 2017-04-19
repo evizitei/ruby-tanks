@@ -52,6 +52,17 @@ colored images.
 If you write your own bot, go into "game.rb" and replace one of the random
 bots with your bot (or add it as a 3rd), and the game should just work.
 
+### RECOMMENDED PEDAGOGY:
+
+The UserBot is built to allow the user to explore
+how to beat bots by controlling it themselves.  The
+best way to learn the most from this toy is to first
+pick a bot to defeat and put it into the ring with
+a UserBot.  Then use the controls to see what it takes
+to beat that bot manually.  When you can articulate
+that as a strategy, you can write a bot to try to
+encode that strategy and see how it works.
+
 ## Game structure:
 
 * Each Tank starts with 1000 energy
