@@ -6,7 +6,10 @@ class Arena
   TANK_CENTER = 0.5
   X_START = 104
   Y_START = 142
-  TANK_START_ENERGY = 100.0
+  TANK_START_ENERGY = 1000
+  MOVE_COST = 1
+  SHOOT_COST = 10
+  HIT_COST = 100
 
   def initialize(bots, tile_size, rows=6, columns=11)
     @bots = bots
@@ -105,12 +108,17 @@ class Arena
         target_key = @state[shot_hash[:row]][shot_hash[:col]]
         if nil != target_key # tank hit
           bot_hash = @keyed_bots[target_key]
-          bot_hash[:tagged] = true
+          bot_hash[:energy] -= HIT_COST
         else
           @shots[shot_hash[:shot].key] = shot_hash
         end
       end
       @pending_shots = []
+
+      # Update Tagged state
+      @keyed_bots.each do |key, bot_hash|
+        bot_hash[:tagged] = (bot_hash[:energy] <= 0)
+      end
     end
   end
 
@@ -187,6 +195,7 @@ class Arena
       target_row -= 1
     end
     add_shot(target_row, target_col, hash[:rotation])
+    hash[:energy] -= SHOOT_COST
   end
 
   def try_left(hash, row_i, col_i)
@@ -196,6 +205,7 @@ class Arena
       @new_state[row_i][col_i] = hash[:bot].key
     end
     hash[:rotation] = 180
+    hash[:energy] -= MOVE_COST
   end
 
   def try_right(hash, row_i, col_i)
@@ -205,6 +215,7 @@ class Arena
       @new_state[row_i][col_i] = hash[:bot].key
     end
     hash[:rotation] = 0
+    hash[:energy] -= MOVE_COST
   end
 
   def try_up(hash, row_i, col_i)
@@ -214,6 +225,7 @@ class Arena
       @new_state[row_i][col_i] = hash[:bot].key
     end
     hash[:rotation] = 270
+    hash[:energy] -= MOVE_COST
   end
 
   def try_down(hash, row_i, col_i)
@@ -223,6 +235,7 @@ class Arena
       @new_state[row_i][col_i] = hash[:bot].key
     end
     hash[:rotation] = 90
+    hash[:energy] -= MOVE_COST
   end
 
   def add_shot(row_i, col_i, rotation)

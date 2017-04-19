@@ -15,7 +15,7 @@
 [x] Give each tank a name at start time
 [x] Start each tank with 100.0 energy
 [x] Display energy at the bottom of the screen by label for each
-[ ] When only one tank is untagged, mark game ended, show message "[Name] Wins!" (http://www.rubydoc.info/github/gosu/gosu/Gosu/Font)
+[x] When only one tank is untagged, mark game ended, show message "[Name] Wins!" (http://www.rubydoc.info/github/gosu/gosu/Gosu/Font)
 [ ] moving should consume 0.1 energy
 [ ] shooting should consume 1 energy
 [ ] fix bug where you can tag yourself by shooting and then walking forward into your shot
