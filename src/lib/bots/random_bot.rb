@@ -7,7 +7,7 @@ class RandomBot < BaseBot
   end
 
   def name
-    "Random"
+    "RandomBot"
   end
 
 end

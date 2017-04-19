@@ -27,10 +27,11 @@
 [x] pass lasers state and battery state into each bot for decision making
 [x] make sure that if 2 lasers run into each other they both disappear
 [x] pass in a copy of game state so bots can't accidentally modify it
-[ ] Build a bot that just holds still (BoringBot)
-[ ] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
-[ ] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
+[x] Build a bot that just holds still (BoringBot)
 [ ] Build a bot that spins and shoots (BattleBot)
+[ ] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
+[ ] Implement a REPLAY button
+[ ] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.

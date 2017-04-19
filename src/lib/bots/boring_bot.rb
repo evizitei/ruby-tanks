@@ -7,7 +7,7 @@ class BoringBot < BaseBot
   end
 
   def name
-    "Boring"
+    "BoringBot"
   end
 
 end
