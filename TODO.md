@@ -32,6 +32,7 @@
 [x] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
 [x] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
 [x] Cap energy at 1000 so battery bot isn't quite so dominant
+[x] allow many tanks (add red color and blue color)
 [ ] Implement a REPLAY button
 
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)

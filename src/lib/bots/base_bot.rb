@@ -45,7 +45,7 @@ class BaseBot
       choose_from << :left
     end
     action = choose_from.sample
-    return :nothing if action == :nil
+    return :nothing if action == nil
     return action
   end
 

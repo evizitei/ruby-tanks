@@ -17,6 +17,16 @@ GREEN_IMAGES = {
   tagged: Gosu::Image.new("assets/tank_green_tagged.png"),
 }
 
+RED_IMAGES = {
+  standard: Gosu::Image.new("assets/tank_red.png"),
+  tagged: Gosu::Image.new("assets/tank_red_tagged.png"),
+}
+
+BLUE_IMAGES = {
+  standard: Gosu::Image.new("assets/tank_blue.png"),
+  tagged: Gosu::Image.new("assets/tank_blue_tagged.png"),
+}
+
 class Tanks < Gosu::Window
   GAME_WIDTH = 960
   GAME_HEIGHT = 720
@@ -30,9 +40,9 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       RandomBot.new(PURPLE_IMAGES),
-      BatteryBot.new(GREEN_IMAGES)
-      #DodgeBot.new(GREEN_IMAGES)
-      #BattleBot.new(GREEN_IMAGES)
+      BatteryBot.new(GREEN_IMAGES),
+      DodgeBot.new(BLUE_IMAGES),
+      BattleBot.new(RED_IMAGES)
       #BoringBot.new(GREEN_IMAGES)
       #RandomBot.new(GREEN_IMAGES)
       #YourBot.new(PURPLE_IMAGES) <- your bot goes here
