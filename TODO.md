@@ -30,8 +30,10 @@
 [x] Build a bot that just holds still (BoringBot)
 [x] Build a bot that spins and shoots (BattleBot)
 [x] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
-[ ] Implement a REPLAY button
 [x] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
+[x] Cap energy at 1000 so battery bot isn't quite so dominant
+[ ] Implement a REPLAY button
+
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
 [ ] color-code scoreboard with color provided to bot
 [ ] work with bella to come up with strategic ideas for defeating each of these

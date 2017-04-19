@@ -119,6 +119,7 @@ class Arena
         if nil != target_key # tank hit
           bot_hash = @keyed_bots[target_key]
           bot_hash[:energy] -= HIT_COST
+          bot_hash[:energy] = 0 if bot_hash[:energy] < 0
         else
           @shots[shot_hash[:shot].key] = shot_hash
         end
@@ -130,7 +131,10 @@ class Arena
       # process battery grabs
       battery_key = @state[@battery_pos[:row]][@battery_pos[:col]]
       if nil != battery_key
-        @keyed_bots[battery_key][:energy] += BATTERY_BOOST
+        bot_hash = @keyed_bots[battery_key]
+        bot_hash[:energy] += BATTERY_BOOST
+        bot_hash[:energy] = TANK_START_ENERGY if bot_hash[:energy] > TANK_START_ENERGY
+
         set_battery_position
       end
 
