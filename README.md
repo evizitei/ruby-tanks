@@ -44,3 +44,13 @@ could be input, so the bot can be as complicated as you want.
 
 If you write your own bot, go into "game.rb" and replace one of the random
 bots with your bot (or add it as a 3rd), and the game should just work.
+
+## Game structure:
+
+* Each Tank starts with 1000 energy
+* moving costs 1 energy
+* shooting costs 10 energy
+* getting hit by a laser loses 100 energy
+* picking up a battery gains back 80 energy
+* going below 0 causes your tank to be "tagged" and it stops
+* last tank with energy wins

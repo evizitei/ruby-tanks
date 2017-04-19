@@ -22,10 +22,10 @@
 [x] when energy is <= 0, tank is "tagged"
 [x] fix bug where you can tag yourself by shooting and then walking forward into your shot
 [x] find a sprite for a battery
-[ ] on each frame, if there is no battery, randomly generate one and draw it
-[ ] if a tank moves onto the battery, the battery disappears and the tank gets +40 energy
+[x] on each frame, if there is no battery, randomly generate one and draw it
+[x] if a tank moves onto the battery, the battery disappears and the tank gets some energy
+[x] pass lasers state and battery state into each bot for decision making
 [ ] make sure that if 2 lasers run into each other they both disappear
-[ ] pass lasers state and battery state into each bot for decision making
 [ ] pass in a copy of game state so bots can't accidentally modify it
 [ ] Build a bot that just holds still (BoringBot)
 [ ] Build a bot that conservatively just dodges (DodgeBot), using as little energy as possible
@@ -35,4 +35,3 @@
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
 [ ] Build a Q-Learning Bot??
-     (66 self positions * 66 other-tank positions * 66 battery positions * 5 actions)
