@@ -16,11 +16,11 @@
 [x] Start each tank with 100.0 energy
 [x] Display energy at the bottom of the screen by label for each
 [x] When only one tank is untagged, mark game ended, show message "[Name] Wins!" (http://www.rubydoc.info/github/gosu/gosu/Gosu/Font)
-[ ] moving should consume 0.1 energy
-[ ] shooting should consume 1 energy
+[x] moving should consume 0.1 energy
+[x] shooting should consume 1 energy
+[x] getting hit by a laser should drain 25 energy
+[x] when energy is <= 0, tank is "tagged"
 [ ] fix bug where you can tag yourself by shooting and then walking forward into your shot
-[ ] getting hit by a laser should drain 25 energy
-[ ] when energy is <= 0, tank is "tagged"
 [ ] find a sprite for a battery
 [ ] on each frame, if there is no battery, randomly generate one and draw it
 [ ] if a tank moves onto the battery, the battery disappears and the tank gets +40 energy
