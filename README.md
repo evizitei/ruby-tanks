@@ -54,3 +54,4 @@ bots with your bot (or add it as a 3rd), and the game should just work.
 * picking up a battery gains back 80 energy
 * going below 0 causes your tank to be "tagged" and it stops
 * last tank with energy wins
+* lasers that strike each other cancel out

@@ -1,3 +1,4 @@
+require 'set'
 require_relative './shot'
 
 class Arena
@@ -122,6 +123,8 @@ class Arena
       end
       @pending_shots = []
 
+      cancel_overlapping_shots
+
       # process battery grabs
       battery_key = @state[@battery_pos[:row]][@battery_pos[:col]]
       if nil != battery_key
@@ -137,6 +140,25 @@ class Arena
   end
 
   private
+
+  def cancel_overlapping_shots
+    to_cancel =  Set.new
+
+    @shots.each do |key, hash|
+      row = hash[:row]
+      col = hash[:col]
+      @shots.each do |other_key, other_hash|
+        if other_key != key
+          if other_hash[:row] == row && other_hash[:col] == col
+            to_cancel.add(key)
+            to_cancel.add(other_key)
+          end
+        end
+      end
+    end
+
+    to_cancel.each{|key| @shots.delete(key) }
+  end
 
   def set_battery_position
     prng = Random.new
