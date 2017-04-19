@@ -40,12 +40,11 @@
 keyboard/spacebar so you can experiment against
 a given bot.
 [x] build a battery camper bot that just lines up with the battery and shoots
+[ ] Build a bot that prioritizes targeted shooting (HunterBot)
 
 [ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
-[ ] Build a bot that prioritizes targeted shooting (HunterBot)
 [ ] build a bot that prioritizes maximizing distance
 between itself and other bots
-
 [ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
 output the results of win counts for statistics gathering with a tick of 0.
 
