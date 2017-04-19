@@ -19,4 +19,8 @@ class RandomBot
     @images[:standard]
   end
 
+  def name
+    "Random"
+  end
+
 end

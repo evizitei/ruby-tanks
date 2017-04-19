@@ -12,12 +12,13 @@
 [x] laser beam needs key and direction in a seperate hash
 [x] make laser beam move 1 cell per tick
 [x] collision detection
-[ ] Give each tank a name at start time
+[x] Give each tank a name at start time
+[x] Start each tank with 100.0 energy
+[x] Display energy at the bottom of the screen by label for each
 [ ] When only one tank is untagged, mark game ended, show message "[Name] Wins!" (http://www.rubydoc.info/github/gosu/gosu/Gosu/Font)
-[ ] Start each tank with 100.0 energy
-[ ] Display energy at the bottom of the screen by label for each
 [ ] moving should consume 0.1 energy
 [ ] shooting should consume 1 energy
+[ ] fix bug where you can tag yourself by shooting and then walking forward into your shot
 [ ] getting hit by a laser should drain 25 energy
 [ ] when energy is <= 0, tank is "tagged"
 [ ] find a sprite for a battery

@@ -6,15 +6,17 @@ class Arena
   TANK_CENTER = 0.5
   X_START = 104
   Y_START = 142
+  TANK_START_ENERGY = 100.0
 
   def initialize(bots, tile_size, rows=6, columns=11)
     @bots = bots
-    @keyed_bots = @bots.map{|b| [b.key, { bot: b }] }.to_h
+    @keyed_bots = @bots.map{|b| [b.key, { bot: b, energy: TANK_START_ENERGY }] }.to_h
     @tile_size = tile_size
     @rows = rows
     @columns = columns
     @state = calculate_initial_positions
     @shot_image = Gosu::Image.new("assets/laser.png")
+    @scoreboard_font = Gosu::Font.new(20)
     @shots = {}
     @pending_shots = []
   end
@@ -32,6 +34,8 @@ class Arena
     @shots.each do |key, hash|
       draw_shot(hash[:shot].image, hash[:row], hash[:col], hash[:rotation])
     end
+
+    draw_scoreboard
   end
 
   def tick
@@ -89,6 +93,18 @@ class Arena
   end
 
   private
+
+  LABEL_WIDTH = 160
+  def draw_scoreboard
+    y = 680
+    x = X_START
+
+    @keyed_bots.each do |k, hash|
+      label = "#{hash[:bot].name}: #{hash[:energy]}"
+      @scoreboard_font.draw(label, x, y, 3)
+      x += LABEL_WIDTH
+    end
+  end
 
   def draw_bot(bot_hash, row, col)
     rotation = bot_hash[:rotation]
