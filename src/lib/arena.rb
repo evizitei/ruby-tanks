@@ -8,25 +8,23 @@ class Arena
   X_START = 104
   Y_START = 142
   TANK_START_ENERGY = 1000
-  MOVE_COST = 1
+  BATTERY_DECAY = 1
+  MOVE_COST = 2
   SHOOT_COST = 10
   HIT_COST = 100
   BATTERY_BOOST = 80
 
   def initialize(bots, tile_size, rows=6, columns=11)
     @bots = bots
-    @keyed_bots = @bots.map{|b| [b.key, { bot: b, energy: TANK_START_ENERGY }] }.to_h
     @tile_size = tile_size
     @rows = rows
     @columns = columns
-    @state = calculate_initial_positions
     @shot_image = Gosu::Image.new("assets/laser.png")
     @battery_image = Gosu::Image.new("assets/battery.png")
     @scoreboard_font = Gosu::Font.new(20)
     @announcement_font = Gosu::Font.new(60)
-    @shots = {}
-    @pending_shots = []
-    set_battery_position
+
+    reset_game!
   end
 
   def render
@@ -55,6 +53,9 @@ class Arena
   def tick
     if @winner
       # no need to keep changing stuff
+      if Gosu.button_down?(Gosu::KB_RETURN)
+        reset_game!
+      end
     else
       @new_state = generate_blank_state
       active_count = 0
@@ -98,6 +99,7 @@ class Arena
                 try_shoot(bot_hash, row_i, col_i)
               when :nothing
                 @new_state[row_i][col_i] = key
+                bot_hash[:energy] -= BATTERY_DECAY
               else
                 puts("DON'T KNOW THIS ACTION: #{bot_hash[:decision]}")
               end
@@ -146,6 +148,15 @@ class Arena
   end
 
   private
+
+  def reset_game!
+    @keyed_bots = @bots.map{|b| [b.key, { bot: b, energy: TANK_START_ENERGY }] }.to_h
+    @state = calculate_initial_positions
+    @shots = {}
+    @pending_shots = []
+    @winner = nil
+    set_battery_position
+  end
 
   def cancel_overlapping_shots
     to_cancel =  Set.new

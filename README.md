@@ -54,10 +54,12 @@ bots with your bot (or add it as a 3rd), and the game should just work.
 ## Game structure:
 
 * Each Tank starts with 1000 energy
-* moving costs 1 energy
+* doing nothing costs 1 energy (batteries run down over time)
+* moving costs 2 energy
 * shooting costs 10 energy
 * getting hit by a laser loses 100 energy
 * picking up a battery gains back 80 energy (max 1000)
 * going below 0 causes your tank to be "tagged" and it stops
 * last tank with energy wins
 * lasers that strike each other cancel out
+* When the game is over, hold down the "ENTER" key to run the same game again with new random seed.

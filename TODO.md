@@ -34,7 +34,8 @@
 [x] Cap energy at 1000 so battery bot isn't quite so dominant
 [x] allow many tanks (add red color and blue color)
 [x] color-code scoreboard with color provided to bot
-[ ] Implement a REPLAY button
+[x] Implement a REPLAY button
+[x] battery life needs to decay so that holding still is penalized; maybe holding still costs one, moving costs 2
 
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
 [ ] work with bella to come up with strategic ideas for defeating each of these
