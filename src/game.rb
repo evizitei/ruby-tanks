@@ -10,21 +10,25 @@ require_relative './lib/bots/battery_bot'
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
   tagged: Gosu::Image.new("assets/tank_purple_tagged.png"),
+  color_code: Gosu::Color::FUCHSIA
 }
 
 GREEN_IMAGES = {
   standard: Gosu::Image.new("assets/tank_green.png"),
   tagged: Gosu::Image.new("assets/tank_green_tagged.png"),
+  color_code: Gosu::Color::GREEN
 }
 
 RED_IMAGES = {
   standard: Gosu::Image.new("assets/tank_red.png"),
   tagged: Gosu::Image.new("assets/tank_red_tagged.png"),
+  color_code: Gosu::Color::RED
 }
 
 BLUE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_blue.png"),
   tagged: Gosu::Image.new("assets/tank_blue_tagged.png"),
+  color_code: Gosu::Color::AQUA
 }
 
 class Tanks < Gosu::Window

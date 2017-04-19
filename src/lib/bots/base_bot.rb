@@ -27,6 +27,10 @@ class BaseBot
     ACTIONS.dup
   end
 
+  def color_code
+    @images[:color_code]
+  end
+
   protected
 
   def move_towards_battery(game_state, battery_position)

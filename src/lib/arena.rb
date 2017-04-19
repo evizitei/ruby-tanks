@@ -184,7 +184,7 @@ class Arena
 
     @keyed_bots.each do |k, hash|
       label = "#{hash[:bot].name}: #{hash[:energy]}"
-      @scoreboard_font.draw(label, x, y, 3)
+      @scoreboard_font.draw(label, x, y, 3, 1, 1, hash[:bot].color_code)
       x += LABEL_WIDTH
     end
   end

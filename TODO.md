@@ -33,10 +33,10 @@
 [x] Build a bot that focuses on moving towards the battery and never shoots (BatteryBot)
 [x] Cap energy at 1000 so battery bot isn't quite so dominant
 [x] allow many tanks (add red color and blue color)
+[x] color-code scoreboard with color provided to bot
 [ ] Implement a REPLAY button
 
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
-[ ] color-code scoreboard with color provided to bot
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
 [ ] Build a Q-Learning Bot??
