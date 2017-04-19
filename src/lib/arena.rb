@@ -10,6 +10,7 @@ class Arena
   MOVE_COST = 1
   SHOOT_COST = 10
   HIT_COST = 100
+  BATTERY_BOOST = 80
 
   def initialize(bots, tile_size, rows=6, columns=11)
     @bots = bots
@@ -57,10 +58,11 @@ class Arena
       @new_state = generate_blank_state
       active_count = 0
       shot_data = @shots.map{|k,hash| {row: hash[:row], col: hash[:col], rotation: hash[:rotation]} }
+      battery_data = { row: @battery_pos[:row], col: @battery_pos[:col]}
       @bots.each do |bot|
         hash = @keyed_bots[bot.key]
         active_count += 1 unless hash[:tagged]
-        hash[:decision] = bot.choose_action(@state, shot_data)
+        hash[:decision] = bot.choose_action(@state, shot_data, battery_data)
       end
 
       if active_count <= 1
@@ -119,6 +121,13 @@ class Arena
         end
       end
       @pending_shots = []
+
+      # process battery grabs
+      battery_key = @state[@battery_pos[:row]][@battery_pos[:col]]
+      if nil != battery_key
+        @keyed_bots[battery_key][:energy] += BATTERY_BOOST
+        set_battery_position
+      end
 
       # Update Tagged state
       @keyed_bots.each do |key, bot_hash|

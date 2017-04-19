@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class RandomBot
-  ACTIONS=[:left, :up, :down, :right, :shoot, :shoot, :shoot, :shoot]
+  ACTIONS=[:left, :up, :down, :right, :shoot]
 
   attr_reader :key
 
@@ -10,7 +10,7 @@ class RandomBot
     @key = SecureRandom.uuid
   end
 
-  def choose_action(game_state, shots)
+  def choose_action(game_state, shots, battery_position)
     ACTIONS.sample
   end
 
