@@ -38,6 +38,7 @@
 [x] battery life needs to decay so that holding still is penalized; maybe holding still costs one, moving costs 2
 
 [ ] Build a bot that prioritizes targeted shooting (HunterBot)
+[ ] build a battery camper bot that just lines up with the battery and shoots
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
 [ ] Build a Q-Learning Bot??
