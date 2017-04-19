@@ -33,3 +33,4 @@
 [ ] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
 [ ] Build a Q-Learning Bot??
+     (66 self positions * 66 other-tank positions * 66 battery positions * 5 actions)
