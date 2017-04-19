@@ -24,12 +24,15 @@ class Arena
     @announcement_font = Gosu::Font.new(60)
     @shots = {}
     @pending_shots = []
+    prng = Random.new
+    @battery_pos = { row: prng.rand(@rows), col: prng.rand(@columns) }
   end
 
   def render
     if @winner
       @announcement_font.draw("#{@winner} wins!", 250, 300, 5)
     else
+
       @state.each_with_index do |row, row_i|
         row.each_with_index do |key, col_i|
           if nil != key
@@ -44,6 +47,7 @@ class Arena
       end
     end
 
+    draw_battery
     draw_scoreboard
   end
 
@@ -125,6 +129,12 @@ class Arena
   end
 
   private
+
+  def draw_battery
+    x = 86 + (@tile_size * @battery_pos[:col])
+    y = 124 + (@tile_size * @battery_pos[:row])
+    @battery_image.draw(x,y,3,0.5,0.5)
+  end
 
   LABEL_WIDTH = 160
   def draw_scoreboard
