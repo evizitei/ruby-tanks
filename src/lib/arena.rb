@@ -158,7 +158,7 @@ class Arena
       target_key = @state[shot_hash[:row]][shot_hash[:col]]
       if nil != target_key # tank hit
         bot_hash = @keyed_bots[target_key]
-        bot_hash[:tagged] = true
+        bot_hash[:energy] -= HIT_COST
         @shots.delete(shot_hash[:shot].key)
       else
         shot_hash[:row] = target_row
