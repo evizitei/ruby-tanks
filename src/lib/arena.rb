@@ -24,8 +24,7 @@ class Arena
     @announcement_font = Gosu::Font.new(60)
     @shots = {}
     @pending_shots = []
-    prng = Random.new
-    @battery_pos = { row: prng.rand(@rows), col: prng.rand(@columns) }
+    set_battery_position
   end
 
   def render
@@ -129,6 +128,11 @@ class Arena
   end
 
   private
+
+  def set_battery_position
+    prng = Random.new
+    @battery_pos = { row: prng.rand(@rows), col: prng.rand(@columns) }
+  end
 
   def draw_battery
     x = 86 + (@tile_size * @battery_pos[:col])
