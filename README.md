@@ -42,6 +42,12 @@ action for each tick, but any bot that matches the same interface (accepts
   the game state and returns a desired action of [left, right, up, down, shoot])
 could be input, so the bot can be as complicated as you want.
 
+You can pick different bots from the ones
+imported into the "game.rb" file to pit against
+each other by editing the constructor in include the
+bots you want, make sure to give them different
+colored images.
+
 If you write your own bot, go into "game.rb" and replace one of the random
 bots with your bot (or add it as a 3rd), and the game should just work.
 
