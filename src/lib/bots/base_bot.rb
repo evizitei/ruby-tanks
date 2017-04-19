@@ -27,4 +27,43 @@ class BaseBot
     ACTIONS.dup
   end
 
+  protected
+  def in_danger_from_sides?(game_state, shots)
+    return false unless shots.length > 0
+    pos = get_my_position(game_state)
+    shots.each do |hash|
+      if hash[:row] == pos[:row]
+        if hash[:col] < pos[:col] && hash[:rotation] == 0
+          return true
+        elsif hash[:col] > pos[:col] && hash[:rotation] == 180
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def in_danger_from_column?(game_state, shots)
+    return false unless shots.length > 0
+    pos = get_my_position(game_state)
+    shots.each do |hash|
+      if hash[:col] == pos[:col]
+        if hash[:row] < pos[:row] && hash[:rotation] == 90
+          return true
+        elsif hash[:row] > pos[:row] && hash[:rotation] == 270
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def get_my_position(state)
+    state.each_with_index do |row, row_i|
+      row.each_with_index do |k, col_i|
+        return {row: row_i, col: col_i } if k == self.key
+      end
+    end
+  end
+
 end

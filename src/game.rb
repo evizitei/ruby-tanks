@@ -4,6 +4,7 @@ require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
 require_relative './lib/bots/boring_bot'
 require_relative './lib/bots/battle_bot'
+require_relative './lib/bots/dodge_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -19,7 +20,7 @@ class Tanks < Gosu::Window
   GAME_WIDTH = 960
   GAME_HEIGHT = 720
   TILE_SIZE = 78
-  GAME_TICK = 10#250
+  GAME_TICK = 100
 
   def initialize
     super GAME_WIDTH, GAME_HEIGHT
@@ -28,7 +29,8 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       RandomBot.new(PURPLE_IMAGES),
-      BattleBot.new(GREEN_IMAGES)
+      DodgeBot.new(GREEN_IMAGES)
+      #BattleBot.new(GREEN_IMAGES)
       #BoringBot.new(GREEN_IMAGES)
       #RandomBot.new(GREEN_IMAGES)
       #YourBot.new(PURPLE_IMAGES) <- your bot goes here
