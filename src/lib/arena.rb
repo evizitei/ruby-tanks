@@ -61,10 +61,13 @@ class Arena
       active_count = 0
       shot_data = @shots.map{|k,hash| {row: hash[:row], col: hash[:col], rotation: hash[:rotation]} }
       battery_data = { row: @battery_pos[:row], col: @battery_pos[:col]}
+
       @bots.each do |bot|
         hash = @keyed_bots[bot.key]
         active_count += 1 unless hash[:tagged]
-        hash[:decision] = bot.choose_action(@state.map{|col| col.dup }, shot_data.dup, battery_data.dup)
+        board_state = @state.map{|col| col.dup }
+        bot_info = @keyed_bots.map{|k, h| [k, {energy: h[:energy], rotation: h[:rotation]}] }.to_h
+        hash[:decision] = bot.choose_action(board_state, bot_info, shot_data.dup, battery_data.dup)
       end
 
       if active_count <= 1
@@ -74,7 +77,11 @@ class Arena
             winner_bot = hash[:bot]
           end
         end
-        @winner = winner_bot.name
+        if winner_bot
+          @winner = winner_bot.name
+        else
+          @winner = "IT'S A TIE"
+        end
       end
 
       # MOVE TANKS

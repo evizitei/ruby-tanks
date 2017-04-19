@@ -1,5 +1,6 @@
 require_relative './base_bot'
 
+# deterministically spins and shoots, no strategy
 class BattleBot < BaseBot
 
   def initialize(input_images)
@@ -8,7 +9,7 @@ class BattleBot < BaseBot
     @last_action = :shoot
   end
 
-  def choose_action(game_state, shots, battery_position)
+  def choose_action(game_state, bot_info, shots, battery_position)
     if @last_action != :shoot
       @last_action = :shoot
       return :shoot

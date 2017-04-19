@@ -1,8 +1,9 @@
 require_relative './base_bot'
 
+# Sits still to conserve energy, but moves when in danger from a laser
 class DodgeBot < BaseBot
 
-  def choose_action(game_state, shots, battery_position)
+  def choose_action(game_state, bot_info, shots, battery_position)
     pos = get_my_position(game_state)
     if in_danger_from_sides?(game_state, shots)
       return :down if pos[:row] <= 0

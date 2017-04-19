@@ -10,7 +10,7 @@ class BaseBot
     @key = SecureRandom.uuid
   end
 
-  def choose_action(game_state, shots, battery_position)
+  def choose_action(game_state, bot_info, shots, battery_position)
     raise "OVERRIDE IN SUBCLASS!"
   end
 
@@ -90,6 +90,45 @@ class BaseBot
       end
     end
     return {row: -1, col: -1}
+  end
+
+  def move_towards_battery_line(game_state, battery_position)
+    pos = get_my_position(game_state)
+    row_diff = (pos[:row] - battery_position[:row]).abs
+    col_diff = (pos[:col] - battery_position[:col]).abs
+    if row_diff <= col_diff
+      return (pos[:row] < battery_position[:row]) ? :down : :up
+    else
+      return (pos[:col] < battery_position[:col]) ? :right : :left
+    end
+  end
+
+  def in_line_with_battery?(game_state, battery_position)
+    pos = get_my_position(game_state)
+    return (pos[:row] == battery_position[:row] || pos[:col] == battery_position[:col])
+  end
+
+  def battery_in_sights?(game_state, bot_info, battery_position)
+    pos = get_my_position(game_state)
+    rot = get_my_rotation(bot_info)
+    if pos[:row] == battery_position[:row]
+      if pos[:col] < battery_position[:col]
+        return true if rot == 0
+      elsif pos[:col] > battery_position[:col]
+        return true if rot == 180
+      end
+    elsif pos[:col] == battery_position[:col]
+      if pos[:row] < battery_position[:row]
+        return true if rot == 90
+      elsif pos[:row] > battery_position[:row]
+        return true if rot == 270
+      end
+    end
+    return false
+  end
+
+  def get_my_rotation(bot_info)
+    bot_info[self.key][:rotation]
   end
 
 end

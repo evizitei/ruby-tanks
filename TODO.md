@@ -36,18 +36,17 @@
 [x] color-code scoreboard with color provided to bot
 [x] Implement a REPLAY button
 [x] battery life needs to decay so that holding still is penalized; maybe holding still costs one, moving costs 2
-
-[ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
-[ ] build a battery camper bot that just lines up with the battery and shoots
-[ ] Build a bot that prioritizes targeted shooting (HunterBot)
-[ ] build a bot that prioritizes maximizing distance
-between itself and other bots
 [x] build a bot you can control with the
 keyboard/spacebar so you can experiment against
 a given bot.
+[x] build a battery camper bot that just lines up with the battery and shoots
 
+[ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
+[ ] Build a bot that prioritizes targeted shooting (HunterBot)
+[ ] build a bot that prioritizes maximizing distance
+between itself and other bots
 
-[ ] build in an automated way to pit 2 bots against each other for a configurable number of epochs and
+[ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
 output the results of win counts for statistics gathering with a tick of 0.
 
 [ ] work with bella to come up with strategic ideas for defeating each of these

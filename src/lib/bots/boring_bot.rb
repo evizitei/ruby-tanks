@@ -1,8 +1,9 @@
 require_relative './base_bot'
 
+# does nothing every time
 class BoringBot < BaseBot
 
-  def choose_action(game_state, shots, battery_position)
+  def choose_action(game_state, bot_info, shots, battery_position)
     return :nothing
   end
 

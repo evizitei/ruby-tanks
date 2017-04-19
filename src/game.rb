@@ -2,11 +2,13 @@ require 'gosu'
 require_relative './lib/fence'
 require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
+require_relative './lib/bots/circle_bot'
 require_relative './lib/bots/boring_bot'
 require_relative './lib/bots/battle_bot'
 require_relative './lib/bots/dodge_bot'
 require_relative './lib/bots/battery_bot'
 require_relative './lib/bots/user_bot'
+require_relative './lib/bots/camper_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -46,13 +48,12 @@ class Tanks < Gosu::Window
     bots = [
       #BoringBot.new(GREEN_IMAGES),
       #UserBot.new(PURPLE_IMAGES)
-      RandomBot.new(PURPLE_IMAGES),
+      #RandomBot.new(PURPLE_IMAGES),
+      #DodgeBot.new(BLUE_IMAGES),
+      CircleBot.new(BLUE_IMAGES),
+      CamperBot.new(RED_IMAGES),
       BatteryBot.new(GREEN_IMAGES),
-      DodgeBot.new(BLUE_IMAGES),
-      BattleBot.new(RED_IMAGES)
-      #BoringBot.new(GREEN_IMAGES)
-      #RandomBot.new(GREEN_IMAGES)
-      #YourBot.new(PURPLE_IMAGES) <- your bot goes here
+      BattleBot.new(PURPLE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
