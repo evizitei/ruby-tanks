@@ -46,7 +46,6 @@ a given bot.
 to make battery camping a less commanding strategy
 
 [ ] add reverse battery drain spots
-[ ] build a bot that dodges both lasers _and_ moves when another tank is right next door (SuperDodgeBot)
 [ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
 [ ] build a better hunter bot that doesn't keep shooting at tagged tanks
 [ ] build a bot that hunts if the tank is closer, but runs for the batter if the battery is closer (greedybot)

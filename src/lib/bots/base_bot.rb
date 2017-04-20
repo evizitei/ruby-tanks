@@ -14,11 +14,14 @@ class BaseBot
     @current_game_state = game_state
     @current_battery_position = battery_position
     @my_position = my_position()
+    @my_rotation = get_my_rotation(bot_info)
     action = choose_action(game_state, bot_info, shots, battery_position)
-    @current_game_state = []
-    @current_battery_position = {}
     @last_position = @my_position
     @last_action = action
+    @my_position = nil
+    @my_rotation = nil
+    @current_game_state = []
+    @current_battery_position = {}
     return action
   end
 
@@ -331,6 +334,64 @@ class BaseBot
       end
     end
     return enemies
+  end
+
+  def move_towards_left_wall
+    target_position = {row: (@current_game_state.length / 2).round, col: 0}
+    move_towards_position(@current_game_state, target_position)
+  end
+
+  def move_towards_right_wall
+    target_position = {row: (@current_game_state.length / 2).round, col: (@current_game_state[0].length - 1)}
+    move_towards_position(@current_game_state, target_position)
+  end
+
+  def just_fired?
+    @last_action == :shoot
+  end
+
+  def just_moved_along_column?
+    (@last_action == :up || @last_action == :down)
+  end
+
+  def against_left_wall?
+    @my_position[:col] == 0
+  end
+
+  def against_right_wall?
+    @my_position[:col] == (@current_game_state[0].length - 1)
+  end
+
+  def against_top_wall?
+    @my_position[:row] == 0
+  end
+
+  def against_bottom_wall?
+    @my_position[:row] == (@current_game_state.length - 1)
+  end
+
+  def close_to_left_wall?
+    @my_position[:col] <= 1
+  end
+
+  def close_to_right_wall?
+    @my_position[:col] >= (@current_game_state[0].length - 2)
+  end
+
+  def facing_right?
+    @my_rotation == 0
+  end
+
+  def facing_left?
+    @my_rotation == 180
+  end
+
+  def facing_up?
+    @my_rotation == 270
+  end
+
+  def facing_down?
+    @my_rotation == 90
   end
 
 end

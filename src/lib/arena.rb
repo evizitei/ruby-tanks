@@ -9,10 +9,10 @@ class Arena
   Y_START = 142
   TANK_START_ENERGY = 1000
   BATTERY_DECAY = 1
-  BATTERY_SPAWN_FRAMES = 5
+  BATTERY_SPAWN_FRAMES = 3
   MOVE_COST = 2
   SHOOT_COST = 10
-  HIT_COST = 100
+  HIT_COST = 150
   BATTERY_BOOST = 80
 
   def initialize(bots, tile_size, rows=6, columns=11)
