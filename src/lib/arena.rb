@@ -9,6 +9,7 @@ class Arena
   Y_START = 142
   TANK_START_ENERGY = 1000
   BATTERY_DECAY = 1
+  BATTERY_SPAWN_FRAMES = 5
   MOVE_COST = 2
   SHOOT_COST = 10
   HIT_COST = 100
@@ -138,12 +139,19 @@ class Arena
 
       # process battery grabs
       battery_key = @state[@battery_pos[:row]][@battery_pos[:col]]
-      if nil != battery_key
+      if battery_in_arena? && battery_key != nil
         bot_hash = @keyed_bots[battery_key]
         bot_hash[:energy] += BATTERY_BOOST
         bot_hash[:energy] = TANK_START_ENERGY if bot_hash[:energy] > TANK_START_ENERGY
 
-        set_battery_position
+        @battery_countdown = BATTERY_SPAWN_FRAMES
+        set_battery_position(clear: true)
+      elsif @battery_countdown >= 0
+        # reposition new battery after delay
+        if @battery_countdown == 0
+          set_battery_position
+        end
+        @battery_countdown -= 1
       end
 
       # Update Tagged state
@@ -167,6 +175,7 @@ class Arena
     @shots = {}
     @pending_shots = []
     @winner = nil
+    @battery_countdown = -1
     set_battery_position
   end
 
@@ -189,15 +198,25 @@ class Arena
     to_cancel.each{|key| @shots.delete(key) }
   end
 
-  def set_battery_position
-    prng = Random.new
-    @battery_pos = { row: prng.rand(@rows), col: prng.rand(@columns) }
+  def set_battery_position(clear: false)
+    if clear
+      @battery_pos = { row: -1, col: -1 }
+    else
+      prng = Random.new
+      @battery_pos = { row: prng.rand(@rows), col: prng.rand(@columns) }
+    end
   end
 
   def draw_battery
-    x = 86 + (@tile_size * @battery_pos[:col])
-    y = 124 + (@tile_size * @battery_pos[:row])
-    @battery_image.draw(x,y,3,0.5,0.5)
+    if battery_in_arena?
+      x = 86 + (@tile_size * @battery_pos[:col])
+      y = 124 + (@tile_size * @battery_pos[:row])
+      @battery_image.draw(x,y,3,0.5,0.5)
+    end
+  end
+
+  def battery_in_arena?
+    return (@battery_pos[:col] >= 0 && @battery_pos[:row] >= 0)
   end
 
   LABEL_WIDTH = 160

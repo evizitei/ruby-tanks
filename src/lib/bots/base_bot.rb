@@ -12,9 +12,11 @@ class BaseBot
 
   def choose_bot_action(game_state, bot_info, shots, battery_position)
     @current_game_state = game_state
+    @current_battery_position = battery_position
     @my_position = my_position()
     action = choose_action(game_state, bot_info, shots, battery_position)
     @current_game_state = []
+    @current_battery_position = {}
     @last_position = @my_position
     @last_action = action
     return action
@@ -51,6 +53,7 @@ class BaseBot
   end
 
   def move_towards_battery(game_state, battery_position)
+    return :nothing unless battery_in_arena?
     move_towards_position(game_state, battery_position)
   end
 
@@ -119,23 +122,32 @@ class BaseBot
     return {row: -1, col: -1}
   end
 
+  def battery_in_arena?
+    return (@current_battery_position[:col] >= 0 && @current_battery_position[:row] >= 0)
+  end
+
   def move_towards_battery_line(game_state, battery_position)
-    pos = @my_position
-    row_diff = (pos[:row] - battery_position[:row]).abs
-    col_diff = (pos[:col] - battery_position[:col]).abs
-    if row_diff <= col_diff
-      return (pos[:row] < battery_position[:row]) ? :down : :up
-    else
-      return (pos[:col] < battery_position[:col]) ? :right : :left
+    if battery_in_arena?
+      pos = @my_position
+      row_diff = (pos[:row] - battery_position[:row]).abs
+      col_diff = (pos[:col] - battery_position[:col]).abs
+      if row_diff <= col_diff
+        return (pos[:row] < battery_position[:row]) ? :down : :up
+      else
+        return (pos[:col] < battery_position[:col]) ? :right : :left
+      end
     end
+    return :nothing
   end
 
   def in_line_with_battery?(game_state, battery_position)
+    return false unless battery_in_arena?
     pos = @my_position
     return (pos[:row] == battery_position[:row] || pos[:col] == battery_position[:col])
   end
 
   def battery_in_sights?(game_state, bot_info, battery_position)
+    return false unless battery_in_arena?
     position_in_sights?(game_state, bot_info, battery_position)
   end
 
