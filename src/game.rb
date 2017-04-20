@@ -52,7 +52,7 @@ class Tanks < Gosu::Window
       #RandomBot.new(GREEN_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
       CircleBot.new(BLUE_IMAGES),
-      #CamperBot.new(RED_IMAGES),
+      CamperBot.new(RED_IMAGES),
       BatteryBot.new(RED_IMAGES),
       BattleBot.new(GREEN_IMAGES),
       HunterBot.new(PURPLE_IMAGES)

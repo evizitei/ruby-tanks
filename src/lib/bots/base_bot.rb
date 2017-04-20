@@ -93,22 +93,7 @@ class BaseBot
   end
 
   def battery_in_sights?(game_state, bot_info, battery_position)
-    pos = get_my_position(game_state)
-    rot = get_my_rotation(bot_info)
-    if pos[:row] == battery_position[:row]
-      if pos[:col] < battery_position[:col]
-        return true if rot == 0
-      elsif pos[:col] > battery_position[:col]
-        return true if rot == 180
-      end
-    elsif pos[:col] == battery_position[:col]
-      if pos[:row] < battery_position[:row]
-        return true if rot == 90
-      elsif pos[:row] > battery_position[:row]
-        return true if rot == 270
-      end
-    end
-    return false
+    position_in_sights?(game_state, bot_info, battery_position)
   end
 
   def get_my_rotation(bot_info)
@@ -167,22 +152,27 @@ class BaseBot
   end
 
   def enemy_in_sights?(game_state, bot_info)
-    pos = get_my_position(game_state)
-    rot = get_my_rotation(bot_info)
     enemy_positions = get_enemy_positions(game_state)
     enemy_positions.each do |enemy_pos|
-      if pos[:row] == enemy_pos[:row]
-        if pos[:col] < enemy_pos[:col]
-          return true if rot == 0
-        elsif pos[:col] > enemy_pos[:col]
-          return true if rot == 180
-        end
-      elsif pos[:col] == enemy_pos[:col]
-        if pos[:row] < enemy_pos[:row]
-          return true if rot == 90
-        elsif pos[:row] > enemy_pos[:row]
-          return true if rot == 270
-        end
+      return true if position_in_sights?(game_state, bot_info, enemy_pos)
+    end
+    return false
+  end
+
+  def position_in_sights?(game_state, bot_info, position)
+    pos = get_my_position(game_state)
+    rot = get_my_rotation(bot_info)
+    if pos[:row] == position[:row]
+      if pos[:col] < position[:col]
+        return true if rot == 0
+      elsif pos[:col] > position[:col]
+        return true if rot == 180
+      end
+    elsif pos[:col] == position[:col]
+      if pos[:row] < position[:row]
+        return true if rot == 90
+      elsif pos[:row] > position[:row]
+        return true if rot == 270
       end
     end
     return false
