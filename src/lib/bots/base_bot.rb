@@ -10,8 +10,10 @@ class BaseBot
     @key = SecureRandom.uuid
   end
 
-  def choose_action(game_state, bot_info, shots, battery_position)
-    raise "OVERRIDE IN SUBCLASS!"
+  def choose_bot_action(game_state, bot_info, shots, battery_position)
+    action = choose_action(game_state, bot_info, shots, battery_position)
+    @last_action = action
+    return action
   end
 
   def image(tagged=false)
@@ -32,6 +34,10 @@ class BaseBot
   end
 
   protected
+
+  def choose_action(game_state, bot_info, shots, battery_position)
+    raise "OVERRIDE IN SUBCLASS!"
+  end
 
   def move_towards_battery(game_state, battery_position)
     move_towards_position(game_state, battery_position)
