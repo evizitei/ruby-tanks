@@ -4,7 +4,7 @@ require_relative './base_bot'
 class DodgeBot < BaseBot
 
   def choose_action(game_state, bot_info, shots, battery_position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     if in_danger_from_sides?(game_state, shots)
       return :down if pos[:row] <= 0
       return :up

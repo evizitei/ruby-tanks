@@ -42,6 +42,9 @@ a given bot.
 [x] build a battery camper bot that just lines up with the battery and shoots
 [x] Build a bot that prioritizes targeted shooting (HunterBot)
 
+[ ] do better instance state management for action helpers
+[ ] maybe pause a few ticks before spawning a battery
+to make battery camping a less commanding strategy
 [ ] build a bot that dodges both lasers _and_ moves when another tank is right next door (SuperDodgeBot)
 [ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
 [ ] build a better hunter bot that doesn't keep shooting at tagged tanks

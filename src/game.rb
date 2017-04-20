@@ -52,11 +52,11 @@ class Tanks < Gosu::Window
       BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(GREEN_IMAGES),
-      #DodgeBot.new(BLUE_IMAGES),
+      DodgeBot.new(BLUE_IMAGES),
       #CircleBot.new(BLUE_IMAGES),
       CamperBot.new(BLUE_IMAGES),
-      BatteryBot.new(RED_IMAGES),
-      BattleBot.new(GREEN_IMAGES),
+      BatteryBot.new(GREEN_IMAGES),
+      #BattleBot.new(GREEN_IMAGES),
       HunterBot.new(RED_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)

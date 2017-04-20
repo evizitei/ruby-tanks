@@ -11,8 +11,10 @@ class BaseBot
   end
 
   def choose_bot_action(game_state, bot_info, shots, battery_position)
-    @my_position = get_my_position(game_state)
+    @current_game_state = game_state
+    @my_position = my_position()
     action = choose_action(game_state, bot_info, shots, battery_position)
+    @current_game_state = []
     @last_position = @my_position
     @last_action = action
     return action
@@ -61,7 +63,7 @@ class BaseBot
 
   def in_danger_from_sides?(game_state, shots)
     return false unless shots.length > 0
-    pos = get_my_position(game_state)
+    pos = @my_position
     shots.each do |hash|
       if hash[:row] == pos[:row]
         if hash[:col] < pos[:col] && hash[:rotation] == 0
@@ -88,7 +90,7 @@ class BaseBot
 
   def in_danger_from_column?(game_state, shots)
     return false unless shots.length > 0
-    pos = get_my_position(game_state)
+    pos = @my_position
     shots.each do |hash|
       if hash[:col] == pos[:col]
         if hash[:row] < pos[:row] && hash[:rotation] == 90
@@ -108,8 +110,8 @@ class BaseBot
     )
   end
 
-  def get_my_position(state)
-    state.each_with_index do |row, row_i|
+  def my_position
+    @current_game_state.each_with_index do |row, row_i|
       row.each_with_index do |k, col_i|
         return {row: row_i, col: col_i } if k == self.key
       end
@@ -118,7 +120,7 @@ class BaseBot
   end
 
   def move_towards_battery_line(game_state, battery_position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     row_diff = (pos[:row] - battery_position[:row]).abs
     col_diff = (pos[:col] - battery_position[:col]).abs
     if row_diff <= col_diff
@@ -129,7 +131,7 @@ class BaseBot
   end
 
   def in_line_with_battery?(game_state, battery_position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     return (pos[:row] == battery_position[:row] || pos[:col] == battery_position[:col])
   end
 
@@ -142,7 +144,7 @@ class BaseBot
   end
 
   def move_towards_row_of_position(game_state, position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     return :nothing if position == nil || pos == nil
     if pos[:row] < position[:row]
       return :down
@@ -153,7 +155,7 @@ class BaseBot
   end
 
   def move_towards_position(game_state, position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     return :nothing if position == nil || pos == nil
     choose_from = []
     if pos[:row] < position[:row]
@@ -218,7 +220,7 @@ class BaseBot
   end
 
   def get_position_of_closest_enemy_on_same_row(game_state)
-    pos = get_my_position(game_state)
+    pos = @my_position
     enemy_positions = get_enemy_positions(game_state)
     min_pos = {row: -1, col: -1}
     min_distance = 1000
@@ -237,7 +239,7 @@ class BaseBot
   end
 
   def get_position_of_closest_enemy(game_state)
-    pos = get_my_position(game_state)
+    pos = @my_position
     enemy_positions = get_enemy_positions(game_state)
     min_pos = {row: -1, col: -1}
     min_distance = 1000
@@ -254,7 +256,7 @@ class BaseBot
   end
 
   def on_same_row_as_enemy?(game_state, bot_info)
-    pos = get_my_position(game_state)
+    pos = @my_position
     enemy_positions = get_enemy_positions(game_state)
     enemy_positions.each do |enemy_pos|
       return enemy_pos if (pos[:row] == enemy_pos[:row])
@@ -263,7 +265,7 @@ class BaseBot
   end
 
   def on_same_col_as_enemy?(game_state, bot_info)
-    pos = get_my_position(game_state)
+    pos = @my_position
     enemy_positions = get_enemy_positions(game_state)
     enemy_positions.each do |enemy_pos|
       return enemy_pos if (pos[:col] == enemy_pos[:col])
@@ -291,7 +293,7 @@ class BaseBot
   end
 
   def position_in_sights?(game_state, bot_info, position)
-    pos = get_my_position(game_state)
+    pos = @my_position
     rot = get_my_rotation(bot_info)
     if pos[:row] == position[:row]
       if pos[:col] < position[:col]
