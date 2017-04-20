@@ -4,7 +4,7 @@ require_relative './base_bot'
 class BatteryBot < BaseBot
 
   def choose_action(game_state, bot_info, shots, battery_position)
-    return move_towards_battery(game_state, battery_position)
+    return move_towards_battery
   end
 
   def name

@@ -55,9 +55,9 @@ class BaseBot
     raise "OVERRIDE IN SUBCLASS!"
   end
 
-  def move_towards_battery(game_state, battery_position)
+  def move_towards_battery
     return :nothing unless battery_in_arena?
-    move_towards_position(game_state, battery_position)
+    move_towards_position(@current_game_state, @current_battery_position)
   end
 
   def in_danger?(game_state, shots)
@@ -94,6 +94,16 @@ class BaseBot
     return game_state[my_pos[:row]][my_pos[:col] + 1] != nil
   end
 
+  def enemy_on_top?(my_pos, game_state)
+    return false if my_pos[:row] == 0
+    return game_state[my_pos[:row] - 1][my_pos[:col]] != nil
+  end
+
+  def enemy_on_bottom?(my_pos, game_state)
+    return false if my_pos[:row] >= (game_state.length - 1)
+    return game_state[my_pos[:row] + 1][my_pos[:col]] != nil
+  end
+
   def in_danger_from_column?(game_state, shots)
     return false unless shots.length > 0
     pos = @my_position
@@ -106,6 +116,8 @@ class BaseBot
         end
       end
     end
+    return true if enemy_on_top?(pos, game_state)
+    return true if enemy_on_bottom?(pos, game_state)
     return false
   end
 
@@ -220,7 +232,7 @@ class BaseBot
   end
 
   def move_towards_same_row_as_closest_enemy(game_state, bot_info)
-    enemy_position = get_position_of_closest_enemy(game_state)
+    enemy_position = get_position_of_closest_enemy
     move_towards_row_of_position(game_state, enemy_position)
   end
 
@@ -230,7 +242,7 @@ class BaseBot
   end
 
   def move_towards_closest_enemy(game_state, bot_info)
-    enemy_position = get_position_of_closest_enemy(game_state)
+    enemy_position = get_position_of_closest_enemy
     move_towards_position(game_state, enemy_position)
   end
 
@@ -253,8 +265,9 @@ class BaseBot
     return min_pos
   end
 
-  def get_position_of_closest_enemy(game_state)
+  def get_position_of_closest_enemy
     pos = @my_position
+    game_state = @current_game_state
     enemy_positions = get_enemy_positions(game_state)
     min_pos = {row: -1, col: -1}
     min_distance = 1000

@@ -17,7 +17,7 @@ class BellaBot < BaseBot
     end
 
     if @on_battery_run
-      action = move_towards_battery(game_state, battery_position)
+      action = move_towards_battery
     else
       if on_same_row_as_enemy?(game_state, bot_info)
         if facing_enemy?(game_state, bot_info)

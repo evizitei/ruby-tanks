@@ -12,6 +12,7 @@ require_relative './lib/bots/user_bot'
 require_relative './lib/bots/camper_bot'
 require_relative './lib/bots/hunter_bot'
 require_relative './lib/bots/saturate_bot'
+require_relative './lib/bots/gratification_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -55,11 +56,12 @@ class Tanks < Gosu::Window
       #RandomBot.new(GREEN_IMAGES),
       DodgeBot.new(BLUE_IMAGES),
       #CircleBot.new(BLUE_IMAGES),
-      #CamperBot.new(BLUE_IMAGES),
+      #CamperBot.new(GREEN_IMAGES),
       BatteryBot.new(GREEN_IMAGES),
       #BattleBot.new(RED_IMAGES),
-      HunterBot.new(RED_IMAGES),
-      SaturateBot.new(PURPLE_IMAGES)
+      #HunterBot.new(RED_IMAGES),
+      SaturateBot.new(PURPLE_IMAGES),
+      GratificationBot.new(RED_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0

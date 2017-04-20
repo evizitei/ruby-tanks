@@ -46,11 +46,12 @@ a given bot.
 to make battery camping a less commanding strategy
 [x] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
 
+[ ] make tank-in-sights return false if the tank is tagged
 [ ] add reverse battery drain spots
 [ ] build a better hunter bot that doesn't keep shooting at tagged tanks
 [ ] build a bot that hunts if the tank is closer, but runs for the batter if the battery is closer (greedybot)
-[ ] build a bot that prioritizes maximizing distance
-between itself and other bots
+[ ] debug dodgebot
+[ ] build a bot that holds still, but shoots if a tank is in front (and turns if a tank is in line)
 
 [ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
 output the results of win counts for statistics gathering with a tick of 0.
