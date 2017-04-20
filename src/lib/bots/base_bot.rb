@@ -100,6 +100,17 @@ class BaseBot
     bot_info[self.key][:rotation]
   end
 
+  def move_towards_row_of_position(game_state, position)
+    pos = get_my_position(game_state)
+    return :nothing if position == nil || pos == nil
+    if pos[:row] < position[:row]
+      return :down
+    elsif pos[:row] > position[:row]
+      return :up
+    end
+    return :nothing
+  end
+
   def move_towards_position(game_state, position)
     pos = get_my_position(game_state)
     return :nothing if position == nil || pos == nil
@@ -120,9 +131,38 @@ class BaseBot
     return action
   end
 
+  def move_towards_same_row_as_closest_enemy(game_state, bot_info)
+    enemy_position = get_position_of_closest_enemy(game_state)
+    move_towards_row_of_position(game_state, enemy_position)
+  end
+
+  def turn_towards_enemy(game_state, bot_info)
+    enemy_position = get_position_of_closest_enemy_on_same_row(game_state)
+    move_towards_position(game_state, enemy_position)
+  end
+
   def move_towards_closest_enemy(game_state, bot_info)
     enemy_position = get_position_of_closest_enemy(game_state)
     move_towards_position(game_state, enemy_position)
+  end
+
+  def get_position_of_closest_enemy_on_same_row(game_state)
+    pos = get_my_position(game_state)
+    enemy_positions = get_enemy_positions(game_state)
+    min_pos = {row: -1, col: -1}
+    min_distance = 1000
+    enemy_positions.each do |enemy_pos|
+      if enemy_pos[:row] == pos[:row]
+        row_diff = (enemy_pos[:row] - pos[:row])
+        col_diff = (enemy_pos[:col] - pos[:col])
+        distance = Math.sqrt((row_diff**2) + (col_diff**2))
+        if distance < min_distance
+          min_distance = distance
+          min_pos = enemy_pos
+        end
+      end
+    end
+    return min_pos
   end
 
   def get_position_of_closest_enemy(game_state)
@@ -142,13 +182,33 @@ class BaseBot
     return min_pos
   end
 
-  def in_line_with_enemy?(game_state, bot_info)
+  def on_same_row_as_enemy?(game_state, bot_info)
     pos = get_my_position(game_state)
     enemy_positions = get_enemy_positions(game_state)
     enemy_positions.each do |enemy_pos|
-      return enemy_pos if (pos[:row] == enemy_pos[:row] || pos[:col] == enemy_pos[:col])
+      return enemy_pos if (pos[:row] == enemy_pos[:row])
     end
     return false
+  end
+
+  def on_same_col_as_enemy?(game_state, bot_info)
+    pos = get_my_position(game_state)
+    enemy_positions = get_enemy_positions(game_state)
+    enemy_positions.each do |enemy_pos|
+      return enemy_pos if (pos[:col] == enemy_pos[:col])
+    end
+    return false
+  end
+
+  def in_line_with_enemy?(game_state, bot_info)
+    return (
+      on_same_row_as_enemy?(game_state, bot_info) ||
+      on_same_col_as_enemy(game_state, bot_info)
+    )
+  end
+
+  def facing_enemy?(game_state, bot_info)
+    enemy_in_sights?(game_state, bot_info)
   end
 
   def enemy_in_sights?(game_state, bot_info)

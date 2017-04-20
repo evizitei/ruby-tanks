@@ -3,6 +3,7 @@ require_relative './lib/fence'
 require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
 require_relative './lib/bots/circle_bot'
+require_relative './lib/bots/bella_bot'
 require_relative './lib/bots/boring_bot'
 require_relative './lib/bots/battle_bot'
 require_relative './lib/bots/dodge_bot'
@@ -48,14 +49,15 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       #BoringBot.new(GREEN_IMAGES),
-      #UserBot.new(PURPLE_IMAGES)
+      BellaBot.new(PURPLE_IMAGES),
+      #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(GREEN_IMAGES),
-      #DodgeBot.new(BLUE_IMAGES),
-      CircleBot.new(BLUE_IMAGES),
-      CamperBot.new(RED_IMAGES),
-      BatteryBot.new(RED_IMAGES),
-      BattleBot.new(GREEN_IMAGES),
-      HunterBot.new(PURPLE_IMAGES)
+      DodgeBot.new(BLUE_IMAGES),
+      #CircleBot.new(BLUE_IMAGES),
+      #CamperBot.new(BLUE_IMAGES),
+      #BatteryBot.new(RED_IMAGES),
+      #BattleBot.new(GREEN_IMAGES),
+      #HunterBot.new(PURPLE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
