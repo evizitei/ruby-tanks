@@ -315,7 +315,12 @@ class BaseBot
   def enemy_in_sights?(game_state, bot_info)
     enemy_positions = get_enemy_positions(game_state)
     enemy_positions.each do |enemy_pos|
-      return true if position_in_sights?(game_state, bot_info, enemy_pos)
+      if position_in_sights?(game_state, bot_info, enemy_pos)
+        enemy_key = game_state[enemy_pos[:row]][enemy_pos[:col]]
+        bot_hash = bot_info[enemy_key]
+        puts "TARGETING: #{bot_hash.inspect}"
+        return true unless bot_info[enemy_key][:tagged]
+      end
     end
     return false
   end

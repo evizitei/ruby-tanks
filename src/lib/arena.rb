@@ -67,7 +67,7 @@ class Arena
         hash = @keyed_bots[bot.key]
         active_count += 1 unless hash[:tagged]
         board_state = @state.map{|col| col.dup }
-        bot_info = @keyed_bots.map{|k, h| [k, {energy: h[:energy], rotation: h[:rotation]}] }.to_h
+        bot_info = @keyed_bots.map{|k, h| [k, {energy: h[:energy], rotation: h[:rotation], tagged: h[:tagged]}] }.to_h
         hash[:decision] = bot.choose_bot_action(board_state, bot_info, shot_data.dup, battery_data.dup)
       end
 
