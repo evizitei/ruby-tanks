@@ -40,8 +40,4 @@ class BellaBot < BaseBot
     "BellaBot"
   end
 
-  protected
-
-
-
 end
