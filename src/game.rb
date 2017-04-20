@@ -9,6 +9,7 @@ require_relative './lib/bots/dodge_bot'
 require_relative './lib/bots/battery_bot'
 require_relative './lib/bots/user_bot'
 require_relative './lib/bots/camper_bot'
+require_relative './lib/bots/hunter_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -38,7 +39,7 @@ class Tanks < Gosu::Window
   GAME_WIDTH = 960
   GAME_HEIGHT = 720
   TILE_SIZE = 78
-  GAME_TICK = 100
+  GAME_TICK = 200
 
   def initialize
     super GAME_WIDTH, GAME_HEIGHT
@@ -48,12 +49,13 @@ class Tanks < Gosu::Window
     bots = [
       #BoringBot.new(GREEN_IMAGES),
       #UserBot.new(PURPLE_IMAGES)
-      #RandomBot.new(PURPLE_IMAGES),
+      #RandomBot.new(GREEN_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
       CircleBot.new(BLUE_IMAGES),
-      CamperBot.new(RED_IMAGES),
-      BatteryBot.new(GREEN_IMAGES),
-      BattleBot.new(PURPLE_IMAGES)
+      #CamperBot.new(RED_IMAGES),
+      BatteryBot.new(RED_IMAGES),
+      BattleBot.new(GREEN_IMAGES),
+      HunterBot.new(PURPLE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     @last_tick = 0
