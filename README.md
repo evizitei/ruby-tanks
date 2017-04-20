@@ -58,7 +58,10 @@ The UserBot is built to allow the user to explore
 how to beat bots by controlling it themselves.  The
 best way to learn the most from this toy is to first
 pick a bot to defeat and put it into the ring with
-a UserBot.  Then use the controls to see what it takes
+a UserBot (just one at a time, it's fun to watch 5 bots go at it
+but it's hard to figure much out in that environment at first).
+
+Then use the controls to see what it takes
 to beat that bot manually.  When you can articulate
 that as a strategy, you can write a bot to try to
 encode that strategy and see how it works.
