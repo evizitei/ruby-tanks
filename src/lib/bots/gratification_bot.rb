@@ -21,24 +21,4 @@ class GratificationBot < BaseBot
     "GratificationBot"
   end
 
-  def battery_closer_than_any_enemies?
-    return distance_to_battery <= distance_to_closest_enemy
-  end
-
-  def distance_to_battery
-    return 100 unless battery_in_arena?
-    distance_between_positions(@my_position, @current_battery_position)
-  end
-
-  def distance_to_closest_enemy
-    enemy_position = get_position_of_closest_enemy
-    distance_between_positions(@my_position, enemy_position)
-  end
-
-  def distance_between_positions(position1, position2)
-    row_diff = (position1[:row] - position2[:row])
-    col_diff = (position1[:col] - position2[:col])
-    Math.sqrt((row_diff**2) + (col_diff**2)).round
-  end
-
 end
