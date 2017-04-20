@@ -21,11 +21,11 @@ class SaturateBot < BaseBot
           if just_moved_along_column?
             return :right
           else
-            if against_top_wall? && @current_direction == :up
+            if against_top_wall?
               @current_direction = :down
             end
 
-            if against_bottom_wall? && @current_direction == :down
+            if against_bottom_wall?
               @current_direction = :up
             end
             return @current_direction
