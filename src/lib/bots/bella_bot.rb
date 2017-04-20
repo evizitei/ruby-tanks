@@ -6,16 +6,31 @@ class BellaBot < BaseBot
   def choose_action(game_state, bot_info, shots, battery_position)
     action = :nothing
     my_position = get_my_position(game_state)
-    if on_same_row_as_enemy?(game_state, bot_info)
-      if facing_enemy?(game_state, bot_info)
-        action = :shoot
-      else
-        action = turn_towards_enemy(game_state, bot_info)
+    if !@on_battery_run
+      if (in_danger_from_sides?(game_state, shots) || in_danger_from_column?(game_state, shots))
+        @on_battery_run = true
+        @target_battery = battery_position
       end
     else
-      action = move_towards_same_row_as_closest_enemy(game_state, bot_info)
-      if is_stuck?(action, my_position)
-        action = [:left, :right].sample
+      if battery_position[:row] != @target_battery[:row] || battery_position[:col] != @target_battery[:col]
+        @on_battery_run = false
+      end
+    end
+
+    if @on_battery_run
+      action = move_towards_battery(game_state, battery_position)
+    else
+      if on_same_row_as_enemy?(game_state, bot_info)
+        if facing_enemy?(game_state, bot_info)
+          action = :shoot
+        else
+          action = turn_towards_enemy(game_state, bot_info)
+        end
+      else
+        action = move_towards_same_row_as_closest_enemy(game_state, bot_info)
+        if is_stuck?(action, my_position)
+          action = [:left, :right].sample
+        end
       end
     end
     @last_position = my_position

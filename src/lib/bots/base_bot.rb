@@ -49,7 +49,19 @@ class BaseBot
         end
       end
     end
+    return true if enemy_on_left?(pos, game_state)
+    return true if enemy_on_right?(pos, game_state)
     return false
+  end
+
+  def enemy_on_left?(my_pos, game_state)
+    return false if my_pos[:col] == 0
+    return game_state[my_pos[:row]][my_pos[:col] - 1] != nil
+  end
+
+  def enemy_on_right?(my_pos, game_state)
+    return false if my_pos[:col] >= (game_state[0].length - 1)
+    return game_state[my_pos[:row]][my_pos[:col] + 1] != nil
   end
 
   def in_danger_from_column?(game_state, shots)
@@ -203,7 +215,7 @@ class BaseBot
   def in_line_with_enemy?(game_state, bot_info)
     return (
       on_same_row_as_enemy?(game_state, bot_info) ||
-      on_same_col_as_enemy(game_state, bot_info)
+      on_same_col_as_enemy?(game_state, bot_info)
     )
   end
 
