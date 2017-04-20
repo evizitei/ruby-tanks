@@ -34,23 +34,7 @@ class BaseBot
   protected
 
   def move_towards_battery(game_state, battery_position)
-    pos = get_my_position(game_state)
-    return :nothing if battery_position == nil || pos == nil
-    choose_from = []
-    if pos[:row] < battery_position[:row]
-      choose_from << :down
-    elsif pos[:row] > battery_position[:row]
-      choose_from << :up
-    end
-
-    if pos[:col] < battery_position[:col]
-      choose_from << :right
-    elsif pos[:col] > battery_position[:col]
-      choose_from << :left
-    end
-    action = choose_from.sample
-    return :nothing if action == nil
-    return action
+    move_towards_position(game_state, battery_position)
   end
 
   def in_danger_from_sides?(game_state, shots)
