@@ -168,8 +168,38 @@ class BaseBot
       choose_from << :left
     end
     action = choose_from.sample
+    if direction_blocked?(game_state, pos, action)
+      action = unblocked_directions(game_state, pos).sample
+    end
     return :nothing if action == nil
     return action
+  end
+
+  def unblocked_directions(game_state, pos)
+    output = []
+    [:up, :down, :left, :right].each do |dir|
+      output << dir if !direction_blocked?(game_state, pos, dir)
+    end
+    return output
+  end
+
+  def direction_blocked?(game_state, start_position, action)
+    target_cell = { row: start_position[:row], col: start_position[:col] }
+    case action
+    when :up
+      target_cell[:row] -= 1
+    when :down
+      target_cell[:row] += 1
+    when :left
+      target_cell[:col] -= 1
+    when :right
+      target_cell[:col] += 1
+    end
+    target_row = game_state[target_cell[:row]]
+    return true if target_row == nil
+    return true if (target_cell[:col] < 0 || target_cell[:col] > (game_state[0].length - 1))
+    target_key = target_row[target_cell[:col]]
+    return target_key != nil
   end
 
   def move_towards_same_row_as_closest_enemy(game_state, bot_info)
