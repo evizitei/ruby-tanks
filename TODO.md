@@ -44,13 +44,14 @@ a given bot.
 [x] do better instance state management for action helpers
 [x] maybe pause a few ticks before spawning a battery
 to make battery camping a less commanding strategy
+[x] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
 
 [ ] add reverse battery drain spots
-[ ] build a bot that moves to the wall and tries to saturate the field with shots from top to bottom and back
 [ ] build a better hunter bot that doesn't keep shooting at tagged tanks
 [ ] build a bot that hunts if the tank is closer, but runs for the batter if the battery is closer (greedybot)
 [ ] build a bot that prioritizes maximizing distance
 between itself and other bots
+
 [ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
 output the results of win counts for statistics gathering with a tick of 0.
 
