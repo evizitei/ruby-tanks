@@ -11,7 +11,9 @@ class BaseBot
   end
 
   def choose_bot_action(game_state, bot_info, shots, battery_position)
+    @my_position = get_my_position(game_state)
     action = choose_action(game_state, bot_info, shots, battery_position)
+    @last_position = @my_position
     @last_action = action
     return action
   end
@@ -35,12 +37,26 @@ class BaseBot
 
   protected
 
+  def is_stuck?(action)
+    if action != :shoot && action == @last_action
+      return is_same_position?(@my_position, @last_position)
+    end
+    return false
+  end
+
   def choose_action(game_state, bot_info, shots, battery_position)
     raise "OVERRIDE IN SUBCLASS!"
   end
 
   def move_towards_battery(game_state, battery_position)
     move_towards_position(game_state, battery_position)
+  end
+
+  def in_danger?(game_state, shots)
+    return (
+      in_danger_from_sides?(game_state, shots) ||
+      in_danger_from_column?(game_state, shots)
+    )
   end
 
   def in_danger_from_sides?(game_state, shots)
@@ -83,6 +99,13 @@ class BaseBot
       end
     end
     return false
+  end
+
+  def is_same_position?(pos1, pos2)
+    return (
+      pos1[:row] != pos2[:row] ||
+      pos1[:col] != pos2[:col]
+    )
   end
 
   def get_my_position(state)

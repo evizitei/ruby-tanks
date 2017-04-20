@@ -7,12 +7,12 @@ class BellaBot < BaseBot
     action = :nothing
     my_position = get_my_position(game_state)
     if !@on_battery_run
-      if (in_danger_from_sides?(game_state, shots) || in_danger_from_column?(game_state, shots))
+      if in_danger?(game_state, shots)
         @on_battery_run = true
         @target_battery = battery_position
       end
     else
-      if battery_position[:row] != @target_battery[:row] || battery_position[:col] != @target_battery[:col]
+      if is_same_position?(battery_position, @target_battery)
         @on_battery_run = false
       end
     end
@@ -28,13 +28,11 @@ class BellaBot < BaseBot
         end
       else
         action = move_towards_same_row_as_closest_enemy(game_state, bot_info)
-        if is_stuck?(action, my_position)
+        if is_stuck?(action)
           action = [:left, :right].sample
         end
       end
     end
-    @last_position = my_position
-    @last_action = action
     return action
   end
 
@@ -44,12 +42,6 @@ class BellaBot < BaseBot
 
   protected
 
-  def is_stuck?(action, my_position)
-    if action != :shoot && action == @last_action
-      return (my_position[:row] == @last_position[:row] && my_position[:col] == @last_position[:col])
-    end
-    return false
-  end
 
 
 end

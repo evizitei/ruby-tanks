@@ -49,7 +49,7 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       #BoringBot.new(GREEN_IMAGES),
-      #BellaBot.new(PURPLE_IMAGES),
+      BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(GREEN_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
