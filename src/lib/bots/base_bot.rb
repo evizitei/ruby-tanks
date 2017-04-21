@@ -13,6 +13,7 @@ class BaseBot
   def choose_bot_action(game_state, bot_info, shots, battery_position)
     @current_game_state = game_state
     @current_battery_position = battery_position
+    @current_bots = bot_info
     @my_position = my_position()
     @my_rotation = get_my_rotation(bot_info)
     action = choose_action(game_state, bot_info, shots, battery_position)
@@ -21,6 +22,7 @@ class BaseBot
     @my_position = nil
     @my_rotation = nil
     @current_game_state = []
+    @current_bots = []
     @current_battery_position = {}
     return action
   end
@@ -318,7 +320,6 @@ class BaseBot
       if position_in_sights?(game_state, bot_info, enemy_pos)
         enemy_key = game_state[enemy_pos[:row]][enemy_pos[:col]]
         bot_hash = bot_info[enemy_key]
-        puts "TARGETING: #{bot_hash.inspect}"
         return true unless bot_info[enemy_key][:tagged]
       end
     end
@@ -368,7 +369,7 @@ class BaseBot
     enemies = []
     game_state.each_with_index do |row, row_i|
       row.each_with_index do |k, col_i|
-        enemies << {row: row_i, col: col_i } if (k != nil && k != self.key)
+        enemies << {row: row_i, col: col_i } if (k != nil && k != self.key && !@current_bots[k][:tagged])
       end
     end
     return enemies
