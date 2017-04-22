@@ -60,7 +60,7 @@ class Arena
   def tick
     if @winner
       if @epochs_left > 0
-        puts("EPOCHS LEFT #{@epochs_left}")
+        puts("WINNER::{#{@winner}} (epochs #{@epochs_left})")
         @bots.each(&:new_epoch!)
         reset_game!
         @epochs_left -= 1
