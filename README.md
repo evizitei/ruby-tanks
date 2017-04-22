@@ -78,3 +78,17 @@ encode that strategy and see how it works.
 * last tank with energy wins
 * lasers that strike each other cancel out
 * When the game is over, hold down the "ENTER" key to run the same game again with new random seed.
+
+## Training QBots
+
+There are reinforcement learning bots available to play with in "src/lib/qbots".
+At the moment their q_matrixes are abstracted to reduce dimensionality, so
+there are basically human hints built into their weight structure, but it's
+still neat to watch them learn.  To try one, comment out all the other bots
+and include just a Q-learning bot and it's named oponent (like BoringBot and BoringQBot).
+
+at the top of game.rb set IN_TRAINING = true, and choose your epoch count (LEARNING_EPOCHS).  The
+game will run much faster as it uses a faster tick, and it will run through that many game
+iterations, dumping the current bot's weights as it goes after each epoch.  Over time
+the exploration rate will go down and the bot should converge on a working strategy
+for defeating it's opponent.

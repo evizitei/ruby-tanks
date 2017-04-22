@@ -16,9 +16,11 @@ class BaseBot
     @current_bots = bot_info
     @my_position = my_position()
     @my_rotation = get_my_rotation(bot_info)
+    @my_energy = get_my_energy(bot_info)
     action = choose_action(game_state, bot_info, shots, battery_position)
     @last_position = @my_position
     @last_action = action
+    @last_energies = bot_info.map{|k,h| [k, h[:energy]]}.to_h
     @my_position = nil
     @my_rotation = nil
     @current_game_state = []
@@ -42,6 +44,10 @@ class BaseBot
 
   def color_code
     @images[:color_code]
+  end
+
+  def new_epoch!
+    # no-op for non-learners
   end
 
   protected
@@ -170,6 +176,10 @@ class BaseBot
 
   def get_my_rotation(bot_info)
     bot_info[self.key][:rotation]
+  end
+
+  def get_my_energy(bot_info)
+    bot_info[self.key][:energy]
   end
 
   def move_towards_row_of_position(game_state, position)

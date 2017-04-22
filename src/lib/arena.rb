@@ -24,8 +24,13 @@ class Arena
     @battery_image = Gosu::Image.new("assets/battery.png")
     @scoreboard_font = Gosu::Font.new(20)
     @announcement_font = Gosu::Font.new(60)
+    @epochs_left = 0
 
     reset_game!
+  end
+
+  def setup_learning!(epochs)
+    @epochs_left = epochs
   end
 
   def render
@@ -53,8 +58,12 @@ class Arena
 
   def tick
     if @winner
-      # no need to keep changing stuff
-      if Gosu.button_down?(Gosu::KB_RETURN)
+      if @epochs_left > 0
+        puts("EPOCHS LEFT #{@epochs_left}")
+        @bots.each(&:new_epoch!)
+        reset_game!
+        @epochs_left -= 1
+      elsif Gosu.button_down?(Gosu::KB_RETURN)
         reset_game!
       end
     else

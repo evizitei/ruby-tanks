@@ -13,6 +13,7 @@ require_relative './lib/bots/camper_bot'
 require_relative './lib/bots/hunter_bot'
 require_relative './lib/bots/saturate_bot'
 require_relative './lib/bots/gratification_bot'
+require_relative './lib/qbots/boring_qbot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -43,6 +44,10 @@ class Tanks < Gosu::Window
   GAME_HEIGHT = 720
   TILE_SIZE = 78
   GAME_TICK = 200
+  # enable for q-learning
+  IN_TRAINING = true
+  LEARNING_EPOCHS = 5000
+  LEARNING_TICK = 0
 
   def initialize
     super GAME_WIDTH, GAME_HEIGHT
@@ -50,28 +55,39 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      #BoringBot.new(GREEN_IMAGES),
-      BellaBot.new(PURPLE_IMAGES),
+      BoringBot.new(GREEN_IMAGES),
+      #BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(GREEN_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
       #CircleBot.new(BLUE_IMAGES),
       #CamperBot.new(GREEN_IMAGES),
-      BatteryBot.new(GREEN_IMAGES),
+      #BatteryBot.new(GREEN_IMAGES),
       #BattleBot.new(RED_IMAGES),
-      HunterBot.new(BLUE_IMAGES),
-      SaturateBot.new(BLUE_IMAGES),
-      GratificationBot.new(RED_IMAGES)
+      #HunterBot.new(BLUE_IMAGES),
+      #SaturateBot.new(BLUE_IMAGES),
+      #GratificationBot.new(RED_IMAGES),
+      BoringQbot.new(PURPLE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
+    if IN_TRAINING
+      @arena.setup_learning!(LEARNING_EPOCHS)
+    end
     @last_tick = 0
   end
 
   def update
     current_tick = Gosu.milliseconds
-    if current_tick - @last_tick > GAME_TICK
-      @arena.tick
-      @last_tick = current_tick
+    if IN_TRAINING
+      if current_tick - @last_tick > LEARNING_TICK
+        @arena.tick
+        @last_tick = current_tick
+      end
+    else
+      if current_tick - @last_tick > GAME_TICK
+        @arena.tick
+        @last_tick = current_tick
+      end
     end
   end
 
@@ -80,6 +96,7 @@ class Tanks < Gosu::Window
     @fence.draw
     @arena.render
   end
+
 end
 
 Tanks.new.show
