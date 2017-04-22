@@ -23,7 +23,7 @@ class Qbot < BaseBot
 
   def enable_learning!
     @training = true
-    @exploration_rate = 0.25
+    @exploration_rate = 0.35
     @exploration_decay = 0.000001
     @learning_rate = 0.3
     @discount_rate = 0.6
@@ -63,7 +63,7 @@ class Qbot < BaseBot
     weights_to_update[action_index] = new_q_value
   end
 
-  KILL_BONUS = 1000
+  KILL_BONUS = 500
   LEAD_BONUS = 5
   def calculate_reward(current_bots, prev_energies)
     reward = 0
