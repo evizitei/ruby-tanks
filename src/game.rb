@@ -14,6 +14,7 @@ require_relative './lib/bots/hunter_bot'
 require_relative './lib/bots/saturate_bot'
 require_relative './lib/bots/gratification_bot'
 require_relative './lib/qbots/boring_qbot'
+require_relative './lib/qbots/battery_qbot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -45,8 +46,8 @@ class Tanks < Gosu::Window
   TILE_SIZE = 78
   GAME_TICK = 200
   # enable for q-learning
-  IN_TRAINING = false
-  LEARNING_EPOCHS = 2000
+  IN_TRAINING = true
+  LEARNING_EPOCHS = 1000
   LEARNING_TICK = 0
 
   def initialize
@@ -55,7 +56,7 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      BoringBot.new(GREEN_IMAGES),
+      #BoringBot.new(GREEN_IMAGES),
       #BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(GREEN_IMAGES),
@@ -64,10 +65,11 @@ class Tanks < Gosu::Window
       #CamperBot.new(GREEN_IMAGES),
       BatteryBot.new(GREEN_IMAGES),
       #BattleBot.new(RED_IMAGES),
-      HunterBot.new(BLUE_IMAGES),
-      SaturateBot.new(RED_IMAGES),
+      #HunterBot.new(BLUE_IMAGES),
+      #SaturateBot.new(RED_IMAGES),
       #GratificationBot.new(RED_IMAGES),
-      BoringQbot.new(PURPLE_IMAGES),
+      #BoringQbot.new(PURPLE_IMAGES),
+      BatteryQbot.new(RED_IMAGES),
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING

@@ -340,6 +340,16 @@ class BaseBot
     return false
   end
 
+  def in_the_lead?
+    leading = true
+    @current_bots.each do |k, hash|
+      if k != self.key && hash[:energy] > @my_energy
+        leading = false
+      end
+    end
+    return leading
+  end
+
   def battery_closer_than_any_enemies?
     return distance_to_battery <= distance_to_closest_enemy
   end
@@ -358,6 +368,22 @@ class BaseBot
     row_diff = (position1[:row] - position2[:row])
     col_diff = (position1[:col] - position2[:col])
     Math.sqrt((row_diff**2) + (col_diff**2)).round
+  end
+
+  def shortest_non_zero_diff(my_pos, enemy_pos)
+    if my_pos[:row] == enemy_pos[:row]
+      return (my_pos[:col] > enemy_pos[:col]) ? :left : :right
+    elsif my_pos[:col] == enemy_pos[:col]
+      return (my_pos[:row] > enemy_pos[:row]) ? :up : :down
+    else
+      row_diff = my_pos[:row] - enemy_pos[:row]
+      col_diff = my_pos[:col] - enemy_pos[:col]
+      if row_diff.abs < col_diff.abs
+        return (row_diff < 0) ? :down : :up
+      else
+        return (col_diff < 0) ? :right : :left
+      end
+    end
   end
 
   def position_in_sights?(game_state, bot_info, position)
