@@ -46,7 +46,7 @@ class Tanks < Gosu::Window
   TILE_SIZE = 78
   GAME_TICK = 200
   # enable for q-learning
-  IN_TRAINING = true
+  IN_TRAINING = false
   LEARNING_EPOCHS = 1000
   LEARNING_TICK = 0
 

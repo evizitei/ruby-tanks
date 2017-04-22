@@ -23,7 +23,7 @@ class Qbot < BaseBot
 
   def enable_learning!
     @training = true
-    @exploration_rate = 0.35
+    @exploration_rate = 0.2
     @exploration_decay = 0.000001
     @learning_rate = 0.3
     @discount_rate = 0.6
