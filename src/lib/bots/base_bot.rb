@@ -50,6 +50,10 @@ class BaseBot
     # no-op for non-learners
   end
 
+  def enable_learning!
+    # no-op for non-learners
+  end
+
   protected
 
   def is_stuck?(action)

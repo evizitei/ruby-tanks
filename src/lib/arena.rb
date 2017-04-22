@@ -31,6 +31,7 @@ class Arena
 
   def setup_learning!(epochs)
     @epochs_left = epochs
+    @bots.each(&:enable_learning!)
   end
 
   def render
