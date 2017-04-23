@@ -92,3 +92,9 @@ game will run much faster as it uses a faster tick, and it will run through that
 iterations, dumping the current bot's weights as it goes after each epoch.  Over time
 the exploration rate will go down and the bot should converge on a working strategy
 for defeating it's opponent.
+
+Once a QBot seems to be performing ok in test trials, if you set IN_TRAINING to false
+in game.rb and run again you can watch it perform strictly to the policy it learned
+(no more exploration), and the results are pretty interesting.  trained weights
+for some are stored in the weights directory and will be loaded automatically, delete
+those files if you want to watch them train from scratch.

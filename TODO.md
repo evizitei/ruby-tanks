@@ -49,6 +49,9 @@ to make battery camping a less commanding strategy
 [x] build a better hunter bot that doesn't keep shooting at tagged tanks
 [x] build a bot that hunts if the tank is closer, but runs for the batter if the battery is closer (gratificationBot)
 [x] debug dodgebot
+[x] work with bella to come up with strategic ideas for defeating each of these
+    that can be made into helper methods on the TankBot base class.
+[x] Build a Q-Learning Bot?? (ambitious but would be cool)
 
 [ ] add reverse battery drain spots
 [ ] build a bot that holds still, but shoots if a tank is in front (and turns if a tank is in line)
@@ -56,9 +59,7 @@ to make battery camping a less commanding strategy
 [ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
 output the results of win counts for statistics gathering with a tick of 0.
 
-[ ] work with bella to come up with strategic ideas for defeating each of these
-    that can be made into helper methods on the TankBot base class.
-[ ] Build a Q-Learning Bot?? (ambitious but would be cool)
+
 
 ## Bot Data So Far:
 

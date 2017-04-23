@@ -16,6 +16,7 @@ require_relative './lib/bots/gratification_bot'
 require_relative './lib/qbots/boring_qbot'
 require_relative './lib/qbots/battery_qbot'
 require_relative './lib/qbots/battle_qbot'
+require_relative './lib/qbots/random_qbot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -60,18 +61,19 @@ class Tanks < Gosu::Window
       #BoringBot.new(GREEN_IMAGES),
       #BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
-      #RandomBot.new(GREEN_IMAGES),
+      RandomBot.new(GREEN_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
       #CircleBot.new(BLUE_IMAGES),
       #CamperBot.new(GREEN_IMAGES),
       #BatteryBot.new(GREEN_IMAGES),
-      BattleBot.new(RED_IMAGES),
-      HunterBot.new(BLUE_IMAGES),
-      SaturateBot.new(GREEN_IMAGES),
-      GratificationBot.new(RED_IMAGES),
+      #BattleBot.new(RED_IMAGES),
+      #HunterBot.new(BLUE_IMAGES),
+      #SaturateBot.new(GREEN_IMAGES),
+      #GratificationBot.new(RED_IMAGES),
       #BoringQbot.new(PURPLE_IMAGES),
       #BatteryQbot.new(RED_IMAGES),
-      #BattleQbot.new(GREEN_IMAGES)
+      #BattleQbot.new(GREEN_IMAGES),
+      RandomQbot.new(BLUE_IMAGES),
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING
