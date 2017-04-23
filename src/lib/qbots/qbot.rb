@@ -93,6 +93,10 @@ class Qbot < BaseBot
     Array.new(6, 0)
   end
 
+  def symbolize_keys(hash)
+    hash.each_with_object({}) { |(k, v), h| h[k.to_sym] = v.is_a?(Hash) ? symbolize_keys(v) : v }
+  end
+
   def name
     raise "Implement in subclass"
   end

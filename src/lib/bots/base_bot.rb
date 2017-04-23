@@ -14,6 +14,7 @@ class BaseBot
     @current_game_state = game_state
     @current_battery_position = battery_position
     @current_bots = bot_info
+    @current_shots = shots
     @my_position = my_position()
     @my_rotation = get_my_rotation(bot_info)
     @my_energy = get_my_energy(bot_info)
@@ -25,6 +26,7 @@ class BaseBot
     @my_rotation = nil
     @current_game_state = []
     @current_bots = []
+    @current_shots = []
     @current_battery_position = {}
     return action
   end

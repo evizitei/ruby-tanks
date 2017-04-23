@@ -80,10 +80,6 @@ class BatteryQbot < Qbot
     }
   end
 
-  def symbolize_keys(hash)
-    hash.each_with_object({}) { |(k, v), h| h[k.to_sym] = v.is_a?(Hash) ? symbolize_keys(v) : v }
-  end
-
   def load_saved_weights
     if @from_the_top
       initialize_q_states
