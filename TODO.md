@@ -52,12 +52,13 @@ to make battery camping a less commanding strategy
 [x] work with bella to come up with strategic ideas for defeating each of these
     that can be made into helper methods on the TankBot base class.
 [x] Build a Q-Learning Bot?? (ambitious but would be cool)
+[x] build in an automated way to pit N bots against each other for a configurable number of epochs and
+output the results of win counts for statistics gathering with a tick of 0.
 
 [ ] add reverse battery drain spots
 [ ] build a bot that holds still, but shoots if a tank is in front (and turns if a tank is in line)
 
-[ ] build in an automated way to pit N bots against each other for a configurable number of epochs and
-output the results of win counts for statistics gathering with a tick of 0.
+
 
 
 

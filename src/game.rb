@@ -18,6 +18,7 @@ require_relative './lib/qbots/battery_qbot'
 require_relative './lib/qbots/battle_qbot'
 require_relative './lib/qbots/random_qbot'
 require_relative './lib/qbots/hunter_qbot'
+require_relative './lib/qbots/gratification_qbot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -48,13 +49,24 @@ class Tanks < Gosu::Window
   GAME_HEIGHT = 720
   TILE_SIZE = 78
   GAME_TICK = 200
+
   # enable for q-learning
   IN_TRAINING = false
-  LEARNING_EPOCHS = 5000
+  LEARNING_EPOCHS = 15000
   LEARNING_TICK = 0
 
+  # enable to gather statistics amongst a set of bots
+  IN_STATS_MODE = false
+  IN_STATS_WIDTH = GAME_WIDTH + 200
+  IN_STATS_TICK = 0
+
   def initialize
-    super GAME_WIDTH, GAME_HEIGHT
+    if IN_STATS_MODE
+      super IN_STATS_WIDTH, GAME_HEIGHT
+    else
+      super GAME_WIDTH, GAME_HEIGHT
+    end
+
     self.caption = "Udaci-Tanks!"
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
@@ -62,25 +74,29 @@ class Tanks < Gosu::Window
       #BoringBot.new(GREEN_IMAGES),
       #BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
-      #RandomBot.new(GREEN_IMAGES),
+      #RandomBot.new(RED_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
-      #CircleBot.new(BLUE_IMAGES),
-      #CamperBot.new(GREEN_IMAGES),
-      BatteryBot.new(GREEN_IMAGES),
-      #BattleBot.new(PURPLE_IMAGES),
-      HunterBot.new(BLUE_IMAGES),
-      SaturateBot.new(GREEN_IMAGES),
+      #CircleBot.new(GREEN_IMAGES),
+      #CamperBot.new(PURPLE_IMAGES),
+      BatteryBot.new(RED_IMAGES),
+      #BattleBot.new(BLUE_IMAGES),
+      HunterBot.new(GREEN_IMAGES),
+      SaturateBot.new(PURPLE_IMAGES),
       GratificationBot.new(RED_IMAGES),
-      #BoringQbot.new(PURPLE_IMAGES),
-      #BatteryQbot.new(RED_IMAGES),
-      #BattleQbot.new(GREEN_IMAGES),
-      #RandomQbot.new(BLUE_IMAGES),
-      #HunterQbot.new(PURPLE_IMAGES),
+      #BoringQbot.new(BLUE_IMAGES),
+      #BatteryQbot.new(GREEN_IMAGES),
+      #BattleQbot.new(PURPLE_IMAGES),
+      #RandomQbot.new(RED_IMAGES),
+      #HunterQbot.new(BLUE_IMAGES),
+      #GratificationQbot.new(GREEN_IMAGES),
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING
       @arena.setup_learning!(LEARNING_EPOCHS)
+    elsif IN_STATS_MODE
+      @arena.setup_stats!(bots)
     end
+
     @last_tick = 0
   end
 
@@ -88,6 +104,11 @@ class Tanks < Gosu::Window
     current_tick = Gosu.milliseconds
     if IN_TRAINING
       if current_tick - @last_tick > LEARNING_TICK
+        @arena.tick
+        @last_tick = current_tick
+      end
+    elsif IN_STATS_MODE
+      if current_tick - @last_tick > IN_STATS_TICK
         @arena.tick
         @last_tick = current_tick
       end

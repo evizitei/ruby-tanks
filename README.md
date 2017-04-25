@@ -79,6 +79,16 @@ encode that strategy and see how it works.
 * lasers that strike each other cancel out
 * When the game is over, hold down the "ENTER" key to run the same game again with new random seed.
 
+## Leaderboard (statistics)
+
+any individual match is intersting, but what's really neat is to see how bots compete
+over time.  To watch an ongoing leaderboard develop, add all the bots you
+want to see matched with each other to the initial bots array in game.rb
+and set IN_STATS_MODE to true.  It will then run indefinitely,
+each game picking 2 bots at random and keeping track of which one wins
+(periodically dumping that information to a json file, and keeping a leaderboard
+  on the game interface itself).
+
 ## Training QBots
 
 There are reinforcement learning bots available to play with in "src/lib/qbots".

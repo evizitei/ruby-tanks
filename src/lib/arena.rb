@@ -14,16 +14,22 @@ class Arena
   SHOOT_COST = 10
   HIT_COST = 150
   BATTERY_BOOST = 80
+  STATS_FILE_NAME = "stats.json"
+  STATS_HEIGHT = 25
 
   def initialize(bots, tile_size, rows=6, columns=11)
     @bots = bots
+    @stats_bot_set = []
+    @stats = {}
     @tile_size = tile_size
     @rows = rows
     @columns = columns
     @shot_image = Gosu::Image.new("assets/laser.png")
     @battery_image = Gosu::Image.new("assets/battery.png")
-    @scoreboard_font = Gosu::Font.new(20)
+    @scoreboard_font = Gosu::Font.new(16)
+    @stats_font = Gosu::Font.new(15)
     @announcement_font = Gosu::Font.new(60)
+    @stats_gathering = false
     @epochs_left = 0
 
     reset_game!
@@ -32,6 +38,20 @@ class Arena
   def setup_learning!(epochs)
     @epochs_left = epochs
     @bots.each(&:enable_learning!)
+  end
+
+  def setup_stats!(bot_set)
+    @stats_gathering = true
+    @stats_bot_set = bot_set
+    @stats = {}
+    @stats_bot_set.each do |b|
+      stat_hash = {}
+      @stats_bot_set.each do |sub_bot|
+        stat_hash[sub_bot.name] = 0
+      end
+      @stats[b.name] = stat_hash
+    end
+    reset_game_for_stats!
   end
 
   def render
@@ -55,6 +75,7 @@ class Arena
 
     draw_battery
     draw_scoreboard
+    draw_stats
   end
 
   def tick
@@ -64,6 +85,10 @@ class Arena
         @bots.each(&:new_epoch!)
         reset_game!
         @epochs_left -= 1
+      elsif @stats_gathering
+        update_stats(@winner, @bots)
+        dump_stats!
+        reset_game_for_stats!
       elsif Gosu.button_down?(Gosu::KB_RETURN)
         reset_game!
       end
@@ -173,10 +198,37 @@ class Arena
 
   private
 
+  def dump_stats!
+    file = File.new(STATS_FILE_NAME, "w")
+    file.write(@stats.to_json)
+    file.close
+  end
+
   def process_bot_shot(bot_hash, shot_key)
     bot_hash[:energy] -= HIT_COST
     bot_hash[:energy] = 0 if bot_hash[:energy] < 0
     @shots.delete(shot_key)
+  end
+
+  def update_stats(winner, bots)
+    winner_name = winner
+    loser_name = bots.select{|b| b.name != winner_name}.first.name
+
+    if winner_name == "IT'S A TIE"
+      puts "TIE: #{bots.map(&:name).inspect}"
+      @stats[bots[0].name][bots[1].name] += 0.5
+      @stats[bots[1].name][bots[0].name] += 0.5
+    else
+      puts "#{winner_name} beats #{loser_name}"
+      @stats[winner_name][loser_name] += 1
+    end
+  end
+
+  def reset_game_for_stats!
+    bot1 = @stats_bot_set.sample
+    bot2 = @stats_bot_set.reject{|b| b.key == bot1.key }.sample
+    @bots = [bot1, bot2]
+    reset_game!
   end
 
   def reset_game!
@@ -238,6 +290,21 @@ class Arena
       label = "#{hash[:bot].name}: #{hash[:energy]}"
       @scoreboard_font.draw(label, x, y, 3, 1, 1, hash[:bot].color_code)
       x += LABEL_WIDTH
+    end
+  end
+
+  def draw_stats
+    if @stats_gathering
+      y = 100
+      x = 1000
+
+      @stats.each do |name, hash|
+        wins = hash.values.reduce(&:+)
+        label = "#{name}: #{wins}"
+        color = @stats_bot_set.select{|b| b.name == name}.first.color_code
+        @stats_font.draw(label, x, y, 3, 1, 1, color)
+        y += STATS_HEIGHT
+      end
     end
   end
 

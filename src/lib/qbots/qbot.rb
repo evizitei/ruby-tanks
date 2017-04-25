@@ -71,7 +71,7 @@ class Qbot < BaseBot
     current_bots.each do |key, hash|
       new_energy = hash[:energy]
       prev_energy = prev_energies[key]
-      energy_delta = prev_energy - new_energy
+      energy_delta = (prev_energy || new_energy) - new_energy
       if new_energy <= 0 && prev_energy > 0
         energy_delta = KILL_BONUS
       end
