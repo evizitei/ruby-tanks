@@ -54,11 +54,15 @@ class Tanks < Gosu::Window
   IN_TRAINING = false
   LEARNING_EPOCHS = 15000
   LEARNING_TICK = 0
+  # painting takes time, less painting takes less time, good for training
+  DISPLAY_ENABLED = true
 
   # enable to gather statistics amongst a set of bots
-  IN_STATS_MODE = false
+  IN_STATS_MODE = true
   IN_STATS_WIDTH = GAME_WIDTH + 200
   IN_STATS_TICK = 0
+
+
 
   def initialize
     if IN_STATS_MODE
@@ -71,24 +75,24 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      #BoringBot.new(GREEN_IMAGES),
-      #BellaBot.new(PURPLE_IMAGES),
+      BoringBot.new(GREEN_IMAGES),
+      BellaBot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
-      #RandomBot.new(RED_IMAGES),
-      #DodgeBot.new(BLUE_IMAGES),
-      #CircleBot.new(GREEN_IMAGES),
-      #CamperBot.new(PURPLE_IMAGES),
+      RandomBot.new(RED_IMAGES),
+      DodgeBot.new(BLUE_IMAGES),
+      CircleBot.new(GREEN_IMAGES),
+      CamperBot.new(PURPLE_IMAGES),
       BatteryBot.new(RED_IMAGES),
-      #BattleBot.new(BLUE_IMAGES),
+      BattleBot.new(BLUE_IMAGES),
       HunterBot.new(GREEN_IMAGES),
       SaturateBot.new(PURPLE_IMAGES),
       GratificationBot.new(RED_IMAGES),
-      #BoringQbot.new(BLUE_IMAGES),
-      #BatteryQbot.new(GREEN_IMAGES),
-      #BattleQbot.new(PURPLE_IMAGES),
-      #RandomQbot.new(RED_IMAGES),
-      #HunterQbot.new(BLUE_IMAGES),
-      #GratificationQbot.new(GREEN_IMAGES),
+      BoringQbot.new(BLUE_IMAGES),
+      BatteryQbot.new(GREEN_IMAGES),
+      BattleQbot.new(PURPLE_IMAGES),
+      RandomQbot.new(RED_IMAGES),
+      HunterQbot.new(BLUE_IMAGES),
+      GratificationQbot.new(GREEN_IMAGES),
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING
@@ -121,9 +125,11 @@ class Tanks < Gosu::Window
   end
 
   def draw
-    @background_image.draw(0,0,0)
-    @fence.draw
-    @arena.render
+    if DISPLAY_ENABLED
+      @background_image.draw(0,0,0)
+      @fence.draw
+    end
+    @arena.render(DISPLAY_ENABLED)
   end
 
 end

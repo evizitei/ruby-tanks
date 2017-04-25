@@ -31,6 +31,7 @@ class Arena
     @announcement_font = Gosu::Font.new(60)
     @stats_gathering = false
     @epochs_left = 0
+    @tick_count = 0
 
     reset_game!
   end
@@ -54,7 +55,8 @@ class Arena
     reset_game_for_stats!
   end
 
-  def render
+  def render(display_on=true)
+    return unless display_on
     if @winner
       @announcement_font.draw("#{@winner} wins!", 250, 300, 5)
     else
@@ -79,9 +81,10 @@ class Arena
   end
 
   def tick
+    @tick_count += 1
     if @winner
       if @epochs_left > 0
-        puts("WINNER::{#{@winner}} (epochs #{@epochs_left})")
+        puts("WINNER::{#{@winner}} (epochs #{@epochs_left}) - in #{@tick_count} ticks")
         @bots.each(&:new_epoch!)
         reset_game!
         @epochs_left -= 1
@@ -238,6 +241,7 @@ class Arena
     @pending_shots = []
     @winner = nil
     @battery_countdown = -1
+    @tick_count = 0
     set_battery_position
   end
 

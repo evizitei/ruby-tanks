@@ -74,6 +74,30 @@ class BaseBot
     move_towards_position(@current_game_state, @current_battery_position)
   end
 
+  def left_in_danger?
+    return false if left_blocked?
+    target_position = { row: @my_position[:row], col: @my_position[:col] - 1 }
+    position_in_danger?(target_position, :right)
+  end
+
+  def right_in_danger?
+    return false if right_blocked?
+    target_position = { row: @my_position[:row], col: @my_position[:col] + 1 }
+    position_in_danger?(target_position, :left)
+  end
+
+  def up_in_danger?
+    return false if up_blocked?
+    target_position = { row: @my_position[:row] - 1, col: @my_position[:col] }
+    position_in_danger?(target_position, :down)
+  end
+
+  def down_in_danger?
+    return false if down_blocked?
+    target_position = { row: @my_position[:row] + 1, col: @my_position[:col] }
+    position_in_danger?(target_position, :up)
+  end
+
   def in_danger?(game_state, shots)
     return (
       in_danger_from_sides?(game_state, shots) ||
@@ -132,6 +156,21 @@ class BaseBot
     end
     return true if enemy_on_top?(pos, game_state)
     return true if enemy_on_bottom?(pos, game_state)
+    return false
+  end
+
+  def position_in_danger?(pos, ignore_threat_from=nil)
+    if ignore_threat_from != :left
+    end
+
+    if ignore_threat_from != :right
+    end
+
+    if ignore_threat_from != :up
+    end
+
+    if ignore_threat_from != :down
+    end
     return false
   end
 

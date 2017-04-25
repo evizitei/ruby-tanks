@@ -1,9 +1,9 @@
 require 'json'
 require_relative './qbot'
 
-# Trained in 1:1 matches against GratificationBot
-class GratificationQbot < Qbot
-  WEIGHTS_FILE_NAME = "weights/gratification_qbot_weights.json"
+# Trained in 1:1 matches against ExploitQbot
+class ExploreQbot < Qbot
+  WEIGHTS_FILE_NAME = "weights/explore_qbot_weights.json"
 
   def new_epoch!
     # no-op for non-learners
@@ -15,21 +15,15 @@ class GratificationQbot < Qbot
 
   def enable_learning!
     super()
-    @exploration_rate = 0.1
+    @exploration_rate = 0.9
+    @exploration_decay = 0.000001
   end
 
   def name
-    "GratificationQbot"
+    "ExploreQbot"
   end
 
   def weights_for_state(game_state, bot_info)
-    # closer_to_bot? [yes, no]
-    # best_direction_to_bot [up, down, left, right, nothing]
-    # best_direction_to_battery [up, down, left, right, nothing]
-    # bot in sights? [yes, no]
-    # in_danger_from_sides [yes,no]
-    # in_danger_from_column [yes,no]
-    # action weights [none, up, down, left, right, shoot]
     key0 = battery_closer_than_any_enemies? ? :closer_to_battery : :closer_to_bot
     key1 = move_towards_closest_enemy(game_state, bot_info)
     key2 = move_towards_battery
@@ -47,7 +41,11 @@ class GratificationQbot < Qbot
     key9 = right_blocked ? :rblock : :rclear
     key10 = up_blocked ? :ublock : :uclear
     key11 = down_blocked ? :dblock : :dclear
-    return @q_matrix[key0][key1][key2][key3][key4][key5][key6][key7][key8][key9][key10][key11]
+    key12 = left_in_danger? ? :ldanger : :lsafe
+    key13 = right_in_danger? ? :rdanger : :rsafe
+    key14 = up_in_danger? ? :udanger : :usafe
+    key15 = down_in_danger? ? :ddanger : :dsafe
+    return @q_matrix[key0][key1][key2][key3][key4][key5][key6][key7][key8][key9][key10][key11][key12][key13][key14][key15]
   end
 
   def initialize_q_states
