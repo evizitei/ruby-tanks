@@ -188,6 +188,16 @@ class BaseBot
     bot_info[self.key][:energy]
   end
 
+  def highest_enemy_energy
+    max = 0
+    @current_bots.each do |k, hash|
+      if k != self.key
+        max = hash[:energy] if hash[:energy] > max
+      end
+    end
+    return max
+  end
+
   def move_towards_row_of_position(game_state, position)
     pos = @my_position
     return :nothing if position == nil || pos == nil
