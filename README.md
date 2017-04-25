@@ -5,7 +5,7 @@ at Udacity, 2017.  The point is to help kids see what a software engineer
 does by seeing how they figure out what they want the computer to do,
 and then how to tell the computer to do it.
 
-![UdaciTanks](/assets/ruby-tanks.png)
+![UdaciTanks](/assets/tanks.png)
 
 ## Setup
 
