@@ -37,16 +37,17 @@ To start the game, you can use the script at "bin/play":
 ## Participating
 
 The goal here is to have players write bots that play laser tag against each other.
-Right now the game initializes with 4 Simple bots that
-have simple to understand and defeat strategies,
+Right now the game initializes with all the bots in a leaderboard-gathering
+mode where it just pits them against each other at random and sees how they do,
 but any bot that matches the same interface (accepts
   the game state and returns a desired action of [left, right, up, down, shoot])
 could be input, so the bot can be as complicated as you want.
 
-You can pick different bots from the ones
+You can control the pairing by turning IN_STATS_MODE to "false" in game.rb
+and manually picking 2 bots from the ones
 imported into the "game.rb" file to pit against
-each other by editing the constructor in include the
-bots you want, make sure to give them different
+each other by editing the constructor in include only the
+bots you want (comment out the rest), make sure to give them different
 colored images.
 
 If you write your own bot, go into "game.rb" and replace one of the random
@@ -81,7 +82,7 @@ encode that strategy and see how it works.
 
 ## Leaderboard (statistics)
 
-any individual match is intersting, but what's really neat is to see how bots compete
+any individual match is interesting, but what's really neat is to see how bots compete
 over time.  To watch an ongoing leaderboard develop, add all the bots you
 want to see matched with each other to the initial bots array in game.rb
 and set IN_STATS_MODE to true.  It will then run indefinitely,
