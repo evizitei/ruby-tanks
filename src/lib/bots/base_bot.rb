@@ -74,6 +74,10 @@ class BaseBot
     move_towards_position(@current_game_state, @current_battery_position)
   end
 
+  def battery_is_in_danger?
+    position_in_danger?(@current_battery_position)
+  end
+
   def left_in_danger?
     return false if left_blocked?
     target_position = { row: @my_position[:row], col: @my_position[:col] - 1 }
@@ -105,8 +109,59 @@ class BaseBot
     )
   end
 
+  def in_danger_from_right?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:row] == pos[:row]
+        if hash[:col] > pos[:col] && hash[:rotation] == 180
+          return true
+        end
+      end
+    end
+    return true if enemy_on_right?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_left?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:row] == pos[:row]
+        if hash[:col] < pos[:col] && hash[:rotation] == 0
+          return true
+        end
+      end
+    end
+    return true if enemy_on_left?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_up?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:col] == pos[:col]
+        if hash[:col] < pos[:col] && hash[:rotation] == 90
+          return true
+        end
+      end
+    end
+    return true if enemy_on_top?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_down?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:col] == pos[:col]
+        if hash[:col] > pos[:col] && hash[:rotation] == 270
+          return true
+        end
+      end
+    end
+    return true if enemy_on_bottom?(pos, @current_game_state)
+    return false
+  end
+
   def in_danger_from_sides?(game_state, shots)
-    return false unless shots.length > 0
     pos = @my_position
     shots.each do |hash|
       if hash[:row] == pos[:row]
@@ -171,7 +226,6 @@ class BaseBot
   end
 
   def in_danger_from_column?(game_state, shots)
-    return false unless shots.length > 0
     pos = @my_position
     shots.each do |hash|
       if hash[:col] == pos[:col]
@@ -188,18 +242,40 @@ class BaseBot
   end
 
   def position_in_danger?(pos, ignore_threat_from=nil)
-    if ignore_threat_from != :left
+    danger_direction  = []
+
+    @current_shots.each do |shot|
+      if shot[:col] == pos[:col]
+        if shot[:row] < pos[:row]
+          danger_direction << :up if shot[:rotation] == 90
+        elsif shot[:row] > pos[:row]
+          danger_direction << :down if shot[:rotation] == 270
+        end
+      elsif shot[:row] == pos[:row]
+        if shot[:col] < pos[:col]
+          danger_direction << :left if shot[:rotation] == 0
+        elsif shot[:col] > pos[:col]
+          danger_direction << :right if shot[:rotation] == 180
+        end
+      end
     end
 
-    if ignore_threat_from != :right
+    if ignore_threat_from == :left
+      danger_direction.delete(:left)
     end
 
-    if ignore_threat_from != :up
+    if ignore_threat_from == :right
+      danger_direction.delete(:right)
     end
 
-    if ignore_threat_from != :down
+    if ignore_threat_from == :up
+      danger_direction.delete(:up)
     end
-    return false
+
+    if ignore_threat_from == :down
+      danger_direction.delete(:down)
+    end
+    return danger_direction.size > 0
   end
 
   def is_same_position?(pos1, pos2)
@@ -276,6 +352,33 @@ class BaseBot
     return :nothing
   end
 
+  def move_away_from_position(game_state, position)
+    towards = move_towards_position(game_state, position)
+    action = :nothing
+    case towards
+    when :left
+      action = :right
+    when :right
+      action = :left
+    when :up
+      action = :down
+    when :down
+      action = :up
+    end
+
+    if action == :up && against_top_wall?
+      action = [:right, :left, :down, :down, :down].sample
+    elsif action == :right && against_right_wall?
+      action = [:up, :left, :down, :up, :down].sample
+    elsif action == :down && against_bottom_wall?
+      action = [:up, :left, :right, :up].sample
+    elsif action == :left && against_left_wall?
+      action = [:up, :down, :right, :up, :up].sample
+    end
+
+    return action
+  end
+
   def move_towards_position(game_state, position)
     pos = @my_position
     return :nothing if position == nil || pos == nil
@@ -334,6 +437,11 @@ class BaseBot
   def turn_towards_enemy(game_state, bot_info)
     enemy_position = get_position_of_closest_enemy_on_same_row(game_state)
     move_towards_position(game_state, enemy_position)
+  end
+
+  def move_away_from_closest_enemy
+    enemy_position = get_position_of_closest_enemy
+    move_away_from_position(@current_game_state, enemy_position)
   end
 
   def move_towards_closest_enemy(game_state, bot_info)
@@ -403,7 +511,7 @@ class BaseBot
     )
   end
 
-  def facing_enemy?(game_state, bot_info)
+  def facing_enemy?(game_state=@current_game_state, bot_info=@current_bots)
     enemy_in_sights?(game_state, bot_info)
   end
 
