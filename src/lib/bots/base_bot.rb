@@ -122,6 +122,30 @@ class BaseBot
     return false
   end
 
+  def enemy_above?(pos, game_state)
+    get_enemy_positions(game_state).each do |enemy_pos|
+      return enemy_pos if (pos[:col] == enemy_pos[:col] && pos[:row] > enemy_pos[:row])
+    end
+  end
+
+  def enemy_below?(pos, game_state)
+    get_enemy_positions(game_state).each do |enemy_pos|
+      return enemy_pos if (pos[:col] == enemy_pos[:col] && pos[:row] < enemy_pos[:row])
+    end
+  end
+
+  def enemy_left?(pos, game_state)
+    get_enemy_positions(game_state).each do |enemy_pos|
+      return enemy_pos if (pos[:row] == enemy_pos[:row] && pos[:col] < enemy_pos[:col])
+    end
+  end
+
+  def enemy_right?(pos, game_state)
+    get_enemy_positions(game_state).each do |enemy_pos|
+      return enemy_pos if (pos[:row] == enemy_pos[:row] && pos[:col] > enemy_pos[:col])
+    end
+  end
+
   def enemy_on_left?(my_pos, game_state)
     return false if my_pos[:col] == 0
     return game_state[my_pos[:row]][my_pos[:col] - 1] != nil
