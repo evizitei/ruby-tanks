@@ -109,8 +109,59 @@ class BaseBot
     )
   end
 
+  def in_danger_from_right?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:row] == pos[:row]
+        if hash[:col] > pos[:col] && hash[:rotation] == 180
+          return true
+        end
+      end
+    end
+    return true if enemy_on_right?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_left?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:row] == pos[:row]
+        if hash[:col] < pos[:col] && hash[:rotation] == 0
+          return true
+        end
+      end
+    end
+    return true if enemy_on_left?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_up?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:col] == pos[:col]
+        if hash[:col] < pos[:col] && hash[:rotation] == 90
+          return true
+        end
+      end
+    end
+    return true if enemy_on_top?(pos, @current_game_state)
+    return false
+  end
+
+  def in_danger_from_down?
+    pos = @my_position
+    @current_shots.each do |hash|
+      if hash[:col] == pos[:col]
+        if hash[:col] > pos[:col] && hash[:rotation] == 270
+          return true
+        end
+      end
+    end
+    return true if enemy_on_bottom?(pos, @current_game_state)
+    return false
+  end
+
   def in_danger_from_sides?(game_state, shots)
-    return false unless shots.length > 0
     pos = @my_position
     shots.each do |hash|
       if hash[:row] == pos[:row]
@@ -147,7 +198,6 @@ class BaseBot
   end
 
   def in_danger_from_column?(game_state, shots)
-    return false unless shots.length > 0
     pos = @my_position
     shots.each do |hash|
       if hash[:col] == pos[:col]
