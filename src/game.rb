@@ -3,6 +3,7 @@ require_relative './lib/fence'
 require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
 require_relative './lib/bots/circle_bot'
+require_relative './lib/bots/booth_bot'
 require_relative './lib/bots/bella_bot'
 require_relative './lib/bots/boring_bot'
 require_relative './lib/bots/battle_bot'
@@ -77,6 +78,7 @@ class Tanks < Gosu::Window
     bots = [
       BoringBot.new(GREEN_IMAGES),
       BellaBot.new(PURPLE_IMAGES),
+      BoothBot.new(GREEN_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       RandomBot.new(RED_IMAGES),
       DodgeBot.new(BLUE_IMAGES),
