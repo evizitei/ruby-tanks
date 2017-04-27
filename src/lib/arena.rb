@@ -32,6 +32,7 @@ class Arena
     @stats_gathering = false
     @epochs_left = 0
     @tick_count = 0
+    @battery_spawn_modifier = 0
 
     reset_game!
   end
@@ -182,7 +183,8 @@ class Arena
         bot_hash[:energy] += BATTERY_BOOST
         bot_hash[:energy] = TANK_START_ENERGY if bot_hash[:energy] > TANK_START_ENERGY
 
-        @battery_countdown = BATTERY_SPAWN_FRAMES
+        @battery_countdown = BATTERY_SPAWN_FRAMES + @battery_spawn_modifier
+        @battery_spawn_modifier += 1
         set_battery_position(clear: true)
       elsif @battery_countdown >= 0
         # reposition new battery after delay
@@ -242,6 +244,7 @@ class Arena
     @winner = nil
     @battery_countdown = -1
     @tick_count = 0
+    @battery_spawn_modifier = 0
     set_battery_position
   end
 

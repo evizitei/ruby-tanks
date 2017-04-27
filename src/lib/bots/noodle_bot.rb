@@ -1,13 +1,13 @@
 require_relative './base_bot'
 
-class TeamBot < BaseBot
+class NoodleBot < BaseBot
 
   def choose_action(game_state, bot_info, shots, battery_position)
-    return :nothing
+    return move_away_from_closest_enemy
   end
 
   def name
-    "TeamBot"
+    "NoodleBot"
   end
 
 end

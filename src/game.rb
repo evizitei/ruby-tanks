@@ -23,7 +23,12 @@ require_relative './lib/qbots/random_qbot'
 require_relative './lib/qbots/hunter_qbot'
 require_relative './lib/qbots/gratification_qbot'
 
-require_relative './lib/bots/team_bot'
+require_relative './lib/bots/ginger_bot'
+require_relative './lib/bots/cats_bot'
+require_relative './lib/bots/freddy_bot'
+require_relative './lib/bots/hamster_bot'
+require_relative './lib/bots/noodle_bot'
+require_relative './lib/bots/adora_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -63,7 +68,7 @@ class Tanks < Gosu::Window
   DISPLAY_ENABLED = true
 
   # enable to gather statistics amongst a set of bots
-  IN_STATS_MODE = false
+  IN_STATS_MODE = true
   IN_STATS_WIDTH = GAME_WIDTH + 200
   IN_STATS_TICK = 0
 
@@ -80,7 +85,7 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      #BoringBot.new(GREEN_IMAGES),
+      #BoringBot.new(RED_IMAGES),
       #BellaBot.new(GREEN_IMAGES),
       #Bella2Bot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
@@ -90,11 +95,11 @@ class Tanks < Gosu::Window
       #CamperBot.new(PURPLE_IMAGES),
       #BatteryBot.new(RED_IMAGES),
       #BattleBot.new(BLUE_IMAGES),
-      HunterBot.new(GREEN_IMAGES),
-      #TripwireBot.new(BLUE_IMAGES)
+      #HunterBot.new(GREEN_IMAGES),
+      #TripwireBot.new(BLUE_IMAGES),
       #SaturateBot.new(PURPLE_IMAGES),
       #GratificationBot.new(GREEN_IMAGES),
-      ScaredyBot.new(RED_IMAGES),
+      #ScaredyBot.new(RED_IMAGES),
       #BoringQbot.new(BLUE_IMAGES),
       #BatteryQbot.new(GREEN_IMAGES),
       #BattleQbot.new(PURPLE_IMAGES),
@@ -102,7 +107,12 @@ class Tanks < Gosu::Window
       #HunterQbot.new(BLUE_IMAGES),
       #GratificationQbot.new(GREEN_IMAGES),
       #GratificationQbot.new(RED_IMAGES),
-      #TeamBot.new(BLUE_IMAGES)
+      GingerBot.new(BLUE_IMAGES),
+      CatsBot.new(RED_IMAGES),
+      FreddyBot.new(GREEN_IMAGES),
+      HamsterBot.new(PURPLE_IMAGES),
+      NoodleBot.new(GREEN_IMAGES),
+      AdoraBot.new(PURPLE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING
