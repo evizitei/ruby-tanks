@@ -324,6 +324,33 @@ class BaseBot
     return :nothing
   end
 
+  def move_away_from_position(game_state, position)
+    towards = move_towards_position(game_state, position)
+    action = :nothing
+    case towards
+    when :left
+      action = :right
+    when :right
+      action = :left
+    when :up
+      action = :down
+    when :down
+      action = :up
+    end
+
+    if action == :up && against_top_wall?
+      action = [:right, :left, :down, :down, :down].sample
+    elsif action == :right && against_right_wall?
+      action = [:up, :left, :down, :up, :down].sample
+    elsif action == :down && against_bottom_wall?
+      action = [:up, :left, :right, :up].sample
+    elsif action == :left && against_left_wall?
+      action = [:up, :down, :right, :up, :up].sample
+    end
+
+    return action
+  end
+
   def move_towards_position(game_state, position)
     pos = @my_position
     return :nothing if position == nil || pos == nil
@@ -382,6 +409,11 @@ class BaseBot
   def turn_towards_enemy(game_state, bot_info)
     enemy_position = get_position_of_closest_enemy_on_same_row(game_state)
     move_towards_position(game_state, enemy_position)
+  end
+
+  def move_away_from_closest_enemy
+    enemy_position = get_position_of_closest_enemy
+    move_away_from_position(@current_game_state, enemy_position)
   end
 
   def move_towards_closest_enemy(game_state, bot_info)

@@ -15,6 +15,7 @@ require_relative './lib/bots/hunter_bot'
 require_relative './lib/bots/saturate_bot'
 require_relative './lib/bots/tripwire_bot'
 require_relative './lib/bots/gratification_bot'
+require_relative './lib/bots/scaredy_bot'
 require_relative './lib/qbots/boring_qbot'
 require_relative './lib/qbots/battery_qbot'
 require_relative './lib/qbots/battle_qbot'
@@ -22,7 +23,7 @@ require_relative './lib/qbots/random_qbot'
 require_relative './lib/qbots/hunter_qbot'
 require_relative './lib/qbots/gratification_qbot'
 
-require_relative './lib/bots/team1_bot'
+require_relative './lib/bots/team_bot'
 
 PURPLE_IMAGES = {
   standard: Gosu::Image.new("assets/tank_purple.png"),
@@ -80,8 +81,8 @@ class Tanks < Gosu::Window
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
       #BoringBot.new(GREEN_IMAGES),
-      #BellaBot.new(PURPLE_IMAGES),
-      Bella2Bot.new(PURPLE_IMAGES),
+      #BellaBot.new(GREEN_IMAGES),
+      #Bella2Bot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(RED_IMAGES),
       #DodgeBot.new(BLUE_IMAGES),
@@ -93,6 +94,7 @@ class Tanks < Gosu::Window
       #TripwireBot.new(BLUE_IMAGES)
       #SaturateBot.new(PURPLE_IMAGES),
       #GratificationBot.new(GREEN_IMAGES),
+      ScaredyBot.new(RED_IMAGES),
       #BoringQbot.new(BLUE_IMAGES),
       #BatteryQbot.new(GREEN_IMAGES),
       #BattleQbot.new(PURPLE_IMAGES),
@@ -100,7 +102,7 @@ class Tanks < Gosu::Window
       #HunterQbot.new(BLUE_IMAGES),
       #GratificationQbot.new(GREEN_IMAGES),
       #GratificationQbot.new(RED_IMAGES),
-      #Team1Bot.new(BLUE_IMAGES)
+      #TeamBot.new(BLUE_IMAGES)
     ]
     @arena = Arena.new(bots, TILE_SIZE)
     if IN_TRAINING
