@@ -74,6 +74,10 @@ class BaseBot
     move_towards_position(@current_game_state, @current_battery_position)
   end
 
+  def battery_is_in_danger?
+    position_in_danger?(@current_battery_position)
+  end
+
   def left_in_danger?
     return false if left_blocked?
     target_position = { row: @my_position[:row], col: @my_position[:col] - 1 }
@@ -160,18 +164,40 @@ class BaseBot
   end
 
   def position_in_danger?(pos, ignore_threat_from=nil)
-    if ignore_threat_from != :left
+    danger_direction  = []
+
+    @current_shots.each do |shot|
+      if shot[:col] == pos[:col]
+        if shot[:row] < pos[:row]
+          danger_direction << :up if shot[:rotation] == 90
+        elsif shot[:row] > pos[:row]
+          danger_direction << :down if shot[:rotation] == 270
+        end
+      elsif shot[:row] == pos[:row]
+        if shot[:col] < pos[:col]
+          danger_direction << :left if shot[:rotation] == 0
+        elsif shot[:col] > pos[:col]
+          danger_direction << :right if shot[:rotation] == 180
+        end
+      end
     end
 
-    if ignore_threat_from != :right
+    if ignore_threat_from == :left
+      danger_direction.delete(:left)
     end
 
-    if ignore_threat_from != :up
+    if ignore_threat_from == :right
+      danger_direction.delete(:right)
     end
 
-    if ignore_threat_from != :down
+    if ignore_threat_from == :up
+      danger_direction.delete(:up)
     end
-    return false
+
+    if ignore_threat_from == :down
+      danger_direction.delete(:down)
+    end
+    return danger_direction.size > 0
   end
 
   def is_same_position?(pos1, pos2)

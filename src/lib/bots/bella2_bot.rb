@@ -8,6 +8,9 @@ class Bella2Bot < BaseBot
       action = :shoot
     else
       action = move_towards_battery
+      if battery_is_in_danger?
+        action = :nothing
+      end
     end
     return action
   end
