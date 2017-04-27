@@ -5,6 +5,7 @@ class BellaBot < BaseBot
 
   def choose_action(game_state, bot_info, shots, battery_position)
     action = :nothing
+
     if !@on_battery_run
       if in_danger?(game_state, shots)
         @on_battery_run = true
@@ -32,6 +33,7 @@ class BellaBot < BaseBot
         end
       end
     end
+
     return action
   end
 

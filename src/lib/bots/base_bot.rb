@@ -375,7 +375,7 @@ class BaseBot
     )
   end
 
-  def facing_enemy?(game_state, bot_info)
+  def facing_enemy?(game_state=@current_game_state, bot_info=@current_bots)
     enemy_in_sights?(game_state, bot_info)
   end
 
