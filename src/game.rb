@@ -3,6 +3,7 @@ require_relative './lib/fence'
 require_relative './lib/arena'
 require_relative './lib/bots/random_bot'
 require_relative './lib/bots/circle_bot'
+require_relative './lib/bots/booth_bot'
 require_relative './lib/bots/bella_bot'
 require_relative './lib/bots/bella2_bot'
 require_relative './lib/bots/boring_bot'
@@ -85,8 +86,9 @@ class Tanks < Gosu::Window
     @background_image = Gosu::Image.new("assets/background_scaled.jpg", tileable: true)
     @fence = Fence.new(Gosu::Image.new("assets/wall.png", tileable: true), TILE_SIZE)
     bots = [
-      #BoringBot.new(RED_IMAGES),
-      #BellaBot.new(GREEN_IMAGES),
+      BoringBot.new(GREEN_IMAGES),
+      BellaBot.new(PURPLE_IMAGES),
+      BoothBot.new(RED_IMAGES),
       #Bella2Bot.new(PURPLE_IMAGES),
       #UserBot.new(BLUE_IMAGES),
       #RandomBot.new(RED_IMAGES),
