@@ -15,7 +15,7 @@ class ExploreQbot < Qbot
 
   def enable_learning!
     super()
-    @exploration_rate = 0.9
+    @exploration_rate = 0.5
     @exploration_decay = 0.000001
   end
 
@@ -120,44 +120,93 @@ class ExploreQbot < Qbot
       lblock: {
         rblock: {
           ublock: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           },
           uclear: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           }
         },
         rclear: {
           ublock: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           },
           uclear: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           }
         }
       },
       lclear: {
         rblock: {
           ublock: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           },
           uclear: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           }
         },
         rclear: {
           ublock: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
           },
           uclear: {
-            dblock: zerod_action_weights,
-            dclear: zerod_action_weights
+            dblock: initialized_directional_danger_hash,
+            dclear: initialized_directional_danger_hash
+          }
+        }
+      }
+    }
+  end
+
+  def initialized_directional_danger_hash
+    {
+      ldanger: {
+        rdanger: {
+          udanger: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          },
+          usafe: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          }
+        },
+        rsafe: {
+          udanger: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          },
+          usafe: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          }
+        }
+      },
+      lsafe: {
+        rdanger: {
+          udanger: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          },
+          usafe: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          }
+        },
+        rsafe: {
+          udanger: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
+          },
+          usafe: {
+            ddanger: zerod_action_weights,
+            dsafe: zerod_action_weights
           }
         }
       }

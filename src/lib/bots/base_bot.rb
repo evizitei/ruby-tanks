@@ -410,6 +410,26 @@ class BaseBot
     return output
   end
 
+  def left_blocked?
+    return true if against_left_wall?
+    direction_blocked?(@current_game_state, @my_position, :left)
+  end
+
+  def right_blocked?
+    return true if against_right_wall?
+    direction_blocked?(@current_game_state, @my_position, :right)
+  end
+
+  def up_blocked?
+    return true if against_top_wall?
+    direction_blocked?(@current_game_state, @my_position, :up)
+  end
+
+  def down_blocked?
+    return true if against_bottom_wall?
+    direction_blocked?(@current_game_state, @my_position, :down)
+  end
+
   def direction_blocked?(game_state, start_position, action)
     target_cell = { row: start_position[:row], col: start_position[:col] }
     case action
